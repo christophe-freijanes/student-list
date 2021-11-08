@@ -1,6 +1,6 @@
 # CREATION DE LA VM
 
-Prerequis :
+### Prerequis :
 * Avoir une connexion reseau
 * Installation de Vagrant et VirtualBox
 * Savoir utiliser Powershell
@@ -100,6 +100,7 @@ Vagrant.configure('2') do |config|
     mpdocker.vbguest.auto_update = false
     mpdocker.vm.network :private_network, ip: IP
     mpdocker.vm.network :forwarded_port, guest: 5000, host: 5000
+    mpdocker.vm.network :forwarded_port, guest: 8080, host: 80
     mpdocker.vm.hostname = "mpdocker"
     mpdocker.vm.synced_folder ".", "/vagrant"
     mpdocker.vm.provision "shell", inline: $install_git, privileged: true
@@ -199,7 +200,7 @@ USERNAME=toto
 PASSWORD=python
 APIHOST=api
 ```
-2. Enregistrer les modifications part 1 ;)
+2. Enregistrer les modifications ;)
 # CREATION VOLUME
 1. Creation d'un volume persistant
 ```bash
@@ -244,18 +245,18 @@ d4795f64a489   none        null      local
 # BUILD AND RUN DOCKER IMAGE  =================================================================
 1. Creation de l'image pour notre conteneur api
 ```bash
-$ docker build -t student-list_api:v1.0 .
+$ docker build -t study-list_api:v1.0 .
 ```
 2. Verification de l'image
 ```bash
 $ docker images
 REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
-student-list_api   v1.0          4c056fe48362   6 seconds ago   1.13GB
+study-list_api   v1.0          4c056fe48362   6 seconds ago   1.13GB
 python             2.7-stretch   e71fc5c0fcb1   18 months ago   928MB
 ```
 3. Tag de l'image de l'apllication
 ```bash
-$ docker tag bfbaca16bb5f cfreijanes/pozosapi:v1.0
+$ docker tag bfbaca16bb5f cfreijanes/study-list_api:v1.0
 ```  
 4. Creation d'un repositorie depuis son docker-hub
 ```bash
@@ -264,7 +265,7 @@ https://hub.docker.com/repositories
 CAPTURE
 5. Push de l'image vers le repositorie de son docker-hub
 ```bash
-$ docker push cfreijanes/pozosapi:v1.0
+$ docker push cfreijanes/study-list_api:v1.0
 ```
 6. Verification de nos microservices actifs
 ```bash
@@ -273,7 +274,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 7. Creation du conteneur
 * Demarrer l'image docker
-* Creation er execution du conteneur student-list_web puis execution du conteneur
+* Creation et execution du conteneur student-list_web puis execution du conteneur
 ```bash
 $ docker run -it --name student-list_web --network study-net -d -p 8080:80 -v /website:/var/www/html/ php:apache
 ```
