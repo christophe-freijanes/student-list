@@ -1,6 +1,4 @@
-MINI-PROJET-DOCKER
-
-#CREATION DE LA VM
+# CREATION DE LA VM
 
 Prerequis :
 -Avoir une connexion reseau
@@ -11,8 +9,9 @@ Prerequis :
 
 Depuis la machine local:
     1-Creation d'un dossier qui va contenir mon vagrantfile
+    ```code
     PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> mkdir H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM\
-
+    ```
     2-Initialisation d'un vagrantfile (option -m = configuration minimum)
     PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant init -m
     CAPTURE-02-VM-Initialisation d'un vagrantfile.PNG
@@ -129,7 +128,7 @@ end
   $ ip a
   10.0.0.200
 
-#RECUPERATION DU CODE
+# RECUPERATION DU CODE
   1-Depuis mpdocker (Host) copier le code de l' API a la racine "/"
   $ cd /
   $ git clone https://github.com/diranetafen/student-list.git
@@ -137,7 +136,7 @@ end
   2-Verification de l'emplacement du code
   $ ls -alh /student-list/
 
-#CREATION DU DOCKERFILE
+# CREATION DU DOCKERFILE
   1-Ce deplacer dans le dossier de l'application
   $ cd /student-list/simple_api/
 
@@ -157,7 +156,18 @@ COPY student_age.py /
 # Run the server python and start api
 CMD [ "python", "./student_age.py" ]
 
-#EDITION INDEX.PHP
+# EDITION INDEX.PHP
+  1-Edition de la page index.php
+  $ vi /student-list/website/index.php
+  
+  2-Modifer la ligne 29 du Code
+  $url = 'http://<api_ip_or_name:port>/pozos/api/v1.0/get_student_ages';
+  par
+  $url = 'http://$hostname:5000/pozos/api/v1.0/get_student_ages' ;
+
+  3-Enregistrer les modifications part 1 ;)
+
+# EDITION INDEX.PHP
   1-Edition de la page index.php
   $ vi /student-list/website/index.php
   
@@ -168,7 +178,15 @@ CMD [ "python", "./student_age.py" ]
 
   3-Enregistrer les modifications part 1 ;)
 
-#CREATION VOLUME
+# EDITION DU FICHIER DES VARIABLES
+ 1-Creation et edition d'un fichier contenant les variables
+ 
+ $ vi /student-list/.env_prod
+ USERNAME=toto
+ PASSWORD=python
+ APIHOST=api
+
+# CREATION VOLUME
   1-Creation d'un volume persistant
   $ sudo docker volume create data
 
@@ -191,7 +209,7 @@ CMD [ "python", "./student_age.py" ]
     }
 ]
 
-#CREATION NETWORK
+# CREATION NETWORK
   1-Creation d'un reseau pour permettre aux conteneurs de communiquer mais aussi d'etre accessible depuis l'exterieur du host
   $ docker network create -d bridge study-net
   93acfcd1907eb7cda5c5cb01c73750522abd1505703eba12a07a5069a12f1685
