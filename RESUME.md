@@ -1,4 +1,4 @@
-# CREATION DE LA VM
+## CREATION DE LA VM
 
 ### Prerequis :
 * Avoir une connexion reseau
@@ -148,7 +148,7 @@ $ docker -v
 $ ip a
   10.0.0.200
 ```
-# RECUPERATION DU CODE
+## RECUPERATION DU CODE
 1. Depuis mpdocker (Host) copier le code de l' API a la racine "/"
 ```bash
 $ cd /
@@ -158,7 +158,7 @@ $ git clone https://github.com/diranetafen/student-list.git
 ```bash
 $ ls -alh /student-list/
 ```
-# CREATION DU DOCKERFILE
+## CREATION DU DOCKERFILE
 1. Ce deplacer dans le dossier de l'application
 ```bash
 $ cd /student-list/simple_api/
@@ -180,7 +180,7 @@ COPY student_age.py /
 # Run the server python and start api
 CMD [ "python", "./student_age.py" ]
 ```
-# EDITION INDEX.PHP
+## EDITION INDEX.PHP
 1. Edition de la page index.php
 ```bash
 $ vi /student-list/website/index.php
@@ -189,10 +189,10 @@ $ vi /student-list/website/index.php
 ```bash
 $url = 'http://<api_ip_or_name:port>/pozos/api/v1.0/get_student_ages';
 par
-$url = 'http://$hostname:5000/pozos/api/v1.0/get_student_ages' ;
+$url = 'http://$hostname:5000/pozos/api/v1.0/get_student_ages';
 ```
 3. Enregistrer les modifications part 1 ;)
-# EDITION DU FICHIER DES VARIABLES
+## EDITION DU FICHIER DES VARIABLES
 1. Creation et edition d'un fichier contenant les variables
 ```bash
 $ vi /student-list/.env_prod
@@ -201,7 +201,7 @@ PASSWORD=python
 APIHOST=api
 ```
 2. Enregistrer les modifications ;)
-# CREATION VOLUME
+## CREATION VOLUME
 1. Creation d'un volume persistant
 ```bash
 $ sudo docker volume create data
@@ -227,7 +227,7 @@ $ sudo docker volume inspect data
     }
 ]
 ```
-# CREATION NETWORK
+## CREATION NETWORK
 1. Creation d'un reseau pour permettre aux conteneurs de communiquer mais aussi d'etre accessible depuis l'exterieur du host
 ```bash
 $ docker network create -d bridge study-net
@@ -242,7 +242,7 @@ NETWORK ID     NAME        DRIVER    SCOPE
 d4795f64a489   none        null      local
 93acfcd1907e   study-net   bridge    local
 ```
-# BUILD AND RUN DOCKER IMAGE  =================================================================
+## BUILD AND RUN DOCKER IMAGE  =================================================================
 1. Creation de l'image pour notre conteneur api
 ```bash
 $ docker build -t study-list_api:v1.0 .
@@ -285,7 +285,7 @@ $ docker run -it --name student-list_api --network study-net -d -p 5000:5000 -v 
 ```bash
 $ docker ps -a
 ```
-# NETTOYAGE DE NOTRE API
+## NETTOYAGE DE NOTRE API
 1. Stopper les conteneurs a nettoyer
 ```bash
 $ docker ps
@@ -300,7 +300,7 @@ $ docker images -a
 ```bash
 $ docker rmi Image Image
 ```
-# INSTALLER DOCKER-COMPOSE
+## INSTALLER DOCKER-COMPOSE
 Derniere release : https://docs.docker.com/compose/install/
 
 1. Installation de docker-compose
@@ -317,7 +317,7 @@ docker-compose version 1.29.2, build 5becea4c
 ```bash
 $ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 ```
-# BUILD AND RUN DOCKER-COMPOSE
+## BUILD AND RUN DOCKER-COMPOSE
 1. Edition du docker-compose
 ```bash
 $ vi /student_list/docker-compose.yml
