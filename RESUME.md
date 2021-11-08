@@ -8,11 +8,11 @@ Prerequis :
 -Creation VM-Centos 7.6 from vagrantfile
 
 Depuis la machine local:
-    1-Creation d'un dossier qui va contenir mon vagrantfile
+    *1-Creation d'un dossier qui va contenir mon vagrantfile
     ```bash
     PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> mkdir H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM\
     ```
-    2-Initialisation d'un vagrantfile (option -m = configuration minimum)
+    *2-Initialisation d'un vagrantfile (option -m = configuration minimum)
     PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant init -m
     CAPTURE-02-VM-Initialisation d'un vagrantfile.PNG
 
@@ -24,7 +24,7 @@ Depuis la machine local:
       config.vm.box_version = "1.0.0"
     end
 
-    4-Edition du vagrantfile d'apres les prerquis pour la creation de la VM
+    *4-Edition du vagrantfile d'apres les prerquis pour la creation de la VM
         -CentOS 7.6
         -Docker
     $ vi vagrantfile
