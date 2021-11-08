@@ -1,34 +1,42 @@
 # CREATION DE LA VM
 
 Prerequis :
--Avoir une connexion reseau
--Installation de Vagrant et VirtualBox
--Savoir utiliser Powershell
--Avoir un editeur de texte
--Creation VM-Centos 7.6 from vagrantfile
+* Avoir une connexion reseau
+* Installation de Vagrant et VirtualBox
+* Savoir utiliser Powershell
+* Avoir un editeur de texte
+* Creation VM-Centos 7.6 from vagrantfile
 
-Depuis la machine local:
-    *1-Creation d'un dossier qui va contenir mon vagrantfile
-    ```bash
-    PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> mkdir H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM\
-    ```
-    *2-Initialisation d'un vagrantfile (option -m = configuration minimum)
-    PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant init -m
-    CAPTURE-02-VM-Initialisation d'un vagrantfile.PNG
+###Depuis la machine local:
+1. Creation d'un dossier qui va contenir mon vagrantfile
+```bash
+PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+mkdir H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM\
+```
+2. Initialisation d'un vagrantfile (option -m = configuration minimum)
+```bash
+PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+vagrant init -m
+```
+CAPTURE-02-VM-Initialisation d'un vagrantfile.PNG
 
-    3-On recupere la version Centos 7.6 pour son provider VirtualBox
-    https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=virtualbox&q=centos+7.6
-
-    Vagrant.configure("2") do |config|
-      config.vm.box = "komlevv/centos-7.6"
-      config.vm.box_version = "1.0.0"
-    end
-
-    *4-Edition du vagrantfile d'apres les prerquis pour la creation de la VM
-        -CentOS 7.6
-        -Docker
-    $ vi vagrantfile
-
+3. On recupere la version Centos 7.6 pour son provider VirtualBox
+```bash
+https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=virtualbox&q=centos+7.6
+```
+```bash
+Vagrant.configure("2") do |config|
+  config.vm.box = "komlevv/centos-7.6"
+  config.vm.box_version = "1.0.0"
+end
+```
+4. Edition du vagrantfile d'apres les prerquis pour la creation de la VM
+* CentOS 7.6
+* Docker
+```bash
+$ vi vagrantfile
+```
+```bash
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -104,30 +112,41 @@ Vagrant.configure('2') do |config|
     end
   end
 end
-
-	5-Installation de plugin vagrant
-	PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant plugin install vagrant-winnfsd
-  PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant plugin install vagrant-vbguest
-  PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant plugin install vagrant-share
-	
-	6-Verification de son vagrantfile
-	PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant validate
-	Vagrantfile validated successfully.
-
-	7-Creation de la VM avec docker
-	PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant up
-
-	8-Connexion a la VM en ssh
-	PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> vagrant ssh mpdocker
-
-	9-Verification apres installation
-  $ cat /etc/redhat-release 
+```
+5. Installation des plugins vagrant
+```bash
+PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+vagrant plugin install vagrant-winnfsd
+PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+vagrant plugin install vagrant-vbguest
+PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+vagrant plugin install vagrant-share
+```	
+6. Verification de son vagrantfile
+```bash
+PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+vagrant validate
+Vagrantfile validated successfully.
+```
+7. Creation de la VM avec docker
+```bash
+PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM>
+vagrant up
+```
+8. Connexion a la VM en ssh
+```bash
+PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+vagrant ssh mpdocker
+```
+9. Verification apres installation
+```bash
+$ cat /etc/redhat-release 
   CentOS Linux release 7.6.1810 (Core) 
-  $ docker -v
+$ docker -v
   Docker version 20.10.10, build b485636
-  $ ip a
+$ ip a
   10.0.0.200
-
+```
 # RECUPERATION DU CODE
   1-Depuis mpdocker (Host) copier le code de l' API a la racine "/"
   $ cd /
