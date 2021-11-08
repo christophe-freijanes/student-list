@@ -1,13 +1,17 @@
 ## CREATION DE LA VM
-
+Notre virtual machine se nommera "mpdocker" elle sera le host qui permettra de faire fonctionner les conteneurs.
 ### Prerequis:
+* Une machine local sous Linux, Windows, MacOS
 * Avoir une connexion reseau
 * Installation de Vagrant et VirtualBox
 * Savoir utiliser Powershell
-* Avoir un editeur de texte
-* Creation VM-Centos 7.6 from vagrantfile
-
-### Depuis la machine local (Host):
+* Avoir un editeur de texte (Notepad++, VSCode)
+* Creation d'une virtual machine avec un OS:Centos 7.6 depuis un vagrantfile
+* Le provisionement du syteme doit avoir un minimun ses paquets d'installer
+** git
+** docker
+** docker-compose
+### Depuis votre machine local (Host):
 1. Creation d'un dossier qui va contenir mon vagrantfile
 ```bash
 PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
@@ -63,7 +67,7 @@ if Vagrant::Util::Platform.windows? then
     raise  Vagrant::Errors::VagrantError.new, "vagrant-share plugin is missing. Please install it using 'vagrant plugin install vagrant-share' and rerun 'vagrant up'"
   end
 end
-
+# SCRIPT for provisioning the magic system :)
 $no_update_system = <<SCRIPT
 echo Stop Update System...
 sudo systemctl stop packagekit.service && sudo systemctl disable packagekit.service
@@ -99,7 +103,7 @@ sleep 5
 echo "The Virtual machine Centos 7.6 has been installed >>> Last reboot !!!"
 sudo reboot
 SCRIPT
-
+# The vagrant config for virtual machine named mpdocker
 Vagrant.configure('2') do |config|
   config.vm.define :mpdocker, primary: true  do |mpdocker|
     mpdocker.vm.box = "komlevv/centos-7.6"
@@ -149,9 +153,13 @@ vagrant ssh mpdocker
 9. Verification apres installation
 ```bash
 $ cat /etc/redhat-release 
-  CentOS Linux release 7.6.1810 (Core) 
+  CentOS Linux release 7.6.1810 (Core)
+```
+```bash
 $ docker -v
   Docker version 20.10.10, build b485636
+```
+```bash
 $ ip a
   10.0.0.200
 ```
