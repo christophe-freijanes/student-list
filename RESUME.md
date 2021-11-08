@@ -199,6 +199,7 @@ USERNAME=toto
 PASSWORD=python
 APIHOST=api
 ```
+2. Enregistrer les modifications part 1 ;)
 # CREATION VOLUME
 1. Creation d'un volume persistant
 ```bash
