@@ -240,73 +240,85 @@ NETWORK ID     NAME        DRIVER    SCOPE
 d4795f64a489   none        null      local
 93acfcd1907e   study-net   bridge    local
 ```
-#BUILD AND RUN DOCKER IMAGE  =================================================================
-  1-Creation de l'image pour notre conteneur api
-  $ docker build -t student-list_api:v1.0 .
-
-  2-Verification de l'image
-  $ docker images
-  REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
-  student-list_api   v1.0          4c056fe48362   6 seconds ago   1.13GB
-  python             2.7-stretch   e71fc5c0fcb1   18 months ago   928MB
-
-  3-Tag de l'image de l'apllication
-  $ docker tag bfbaca16bb5f cfreijanes/pozosapi:v1.0
-  
-  4-Creation d'un repositorie depuis son docker-hub
-  https://hub.docker.com/repositories
-  CAPTURE
-
-  5-Push de l'image vers le repositorie de son docker-hub  
-  $ docker push cfreijanes/pozosapi:v1.0
-
-  6-Verification de nos microservices actifs
-  $ docker ps
-  CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
-
-  7-Creation du conteneur
-  -Demarrer l'image docker
-  -Creation er execution du conteneur student-list_web puis execution du conteneur 
-  $ docker run -it --name student-list_web --network study-net -d -p 8080:80 -v /website:/var/www/html/ php:apache
-  $ docker run -it --name student-list_api --network study-net -d -p 5000:5000 -v /student-list/simple_api/student_age.json:/data/student_age.json student-list_api:v1
-
-  8-Verification de nos microservices actifs
-  $ docker ps -a
-
-#MONTAGE du fichier student_age.json dans /data/student_age.json
-  1-Monter le fichier student_age.json
-  $ docker run --name pozosapi -p 5000:5000 -d -v ./student-list/simple_api/student_age.json:/data/student_age.json python:2.7-stretch
-
-#NETTOYAGE DE NOTRE API
-  1-Stopper les conteneurs a nettoyer
-  $ docker ps
-  $ docker stop student-list_web
-  $ docker stop student-list_api
-
-  2-Élimination de toutes les images, conteneurs, volumes et réseaux inutilisés ou en suspens
-  $ docker system prune
-
-  3-Verifier en listant les images et les conteneurs de Docker si il y a en a toujours dans le systeme
-  $ docker ps -a && docker images -a
-
-#INSTALLER DOCKER-COMPOSE
+# BUILD AND RUN DOCKER IMAGE  =================================================================
+1. Creation de l'image pour notre conteneur api
+```bash
+$ docker build -t student-list_api:v1.0 .
+```
+2. Verification de l'image
+```bash
+$ docker images
+REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
+student-list_api   v1.0          4c056fe48362   6 seconds ago   1.13GB
+python             2.7-stretch   e71fc5c0fcb1   18 months ago   928MB
+```
+3. Tag de l'image de l'apllication
+```bash
+$ docker tag bfbaca16bb5f cfreijanes/pozosapi:v1.0
+```  
+4. Creation d'un repositorie depuis son docker-hub
+```bash
+https://hub.docker.com/repositories
+```
+CAPTURE
+5. Push de l'image vers le repositorie de son docker-hub
+```bash
+$ docker push cfreijanes/pozosapi:v1.0
+```
+6. Verification de nos microservices actifs
+```bash
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+7. Creation du conteneur
+* Demarrer l'image docker
+* Creation er execution du conteneur student-list_web puis execution du conteneur
+```bash
+$ docker run -it --name student-list_web --network study-net -d -p 8080:80 -v /website:/var/www/html/ php:apache
+```
+```bash
+$ docker run -it --name student-list_api --network study-net -d -p 5000:5000 -v /student-list/simple_api/student_age.json:/data/student_age.json student-list_api:v1
+```
+8. Verification de nos microservices actifs
+```bash
+$ docker ps -a
+```
+# NETTOYAGE DE NOTRE API
+1. Stopper les conteneurs a nettoyer
+```bash
+$ docker ps
+$ docker stop student-list_web
+$ docker stop student-list_api
+```
+2. Lister les images
+```bash
+$ docker images -a
+```
+3. Suppression des images
+```bash
+$ docker rmi Image Image
+```
+# INSTALLER DOCKER-COMPOSE
 Derniere release : https://docs.docker.com/compose/install/
 
-  1-Installation de docker-compose 
-  $ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  $ sudo chmod +x /usr/local/bin/docker-compose
-  # Si ne fonctionne pas
-  $ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
-  2-Verification de la version
-  $ docker-compose -v
-  docker-compose version 1.29.2, build 5becea4c
-  # Si ne fonctionne pas erreur "command not found"
-  $ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-
-#BUILD AND RUN DOCKER-COMPOSE
-  1-Edition du docker-compose
-  $ vi /student_list/docker-compose.yml
+1. Installation de docker-compose
+```bash
+$ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+$ sudo chmod +x /usr/local/bin/docker-compose
+```
+2. Verification de la version
+```bash
+$ docker-compose -v
+docker-compose version 1.29.2, build 5becea4c
+```
+* Si ne fonctionne pas erreur "command not found"
+```bash
+$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+# BUILD AND RUN DOCKER-COMPOSE
+1. Edition du docker-compose
+```bash
+$ vi /student_list/docker-compose.yml
 version: '3.1'
 services:
   api:
@@ -315,31 +327,37 @@ services:
       - ./simple_api/student_age.json:/data/student_age.json
     ports:
       - "5000:5000"
+    env_file:
+      - .env_prod
     environment:
-      - USERNAME=toto
-      - PASSWORD=python
+      - $USERNAME
+      - $PASSWORD
     networks:
-      - student-network
+      - study-net
     restart: always
   web:
     image: php:apache
     volumes:
       - ./website:/var/www/html/
     restart: always
+    env_file:
+      - .env_prod
     environment:
-      - USERNAME=toto
-      - PASSWORD=python
-      - APIHOST=api
+      - $USERNAME
+      - $PASSWORD
+      - $APIHOST
     ports:
       - "8080:80"
     networks:
-      - student-network
+      - study-net
     depends_on:
       - api
 networks:
-  student-network:
-
-  2-Run le docker-compose
-  $ docker-compose up -d
+  study-net:
+```
+2. Run le docker-compose
+```bash
+$ docker-compose up -d
+```
 
 
