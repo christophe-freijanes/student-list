@@ -1,6 +1,6 @@
 ## CREATION DE LA VM
 
-### Prerequis :
+### Prerequis:
 * Avoir une connexion reseau
 * Installation de Vagrant et VirtualBox
 * Savoir utiliser Powershell
@@ -82,15 +82,22 @@ echo Installing Development Tools...
 sudo yum groups mark install "Development Tools"
 sudo yum groups mark convert "Development Tools"
 sudo yum groupinstall "Development Tools" -y
+sudo yum install -y yum-utils
 sleep 5
 SCRIPT
 $install_docker_script = <<SCRIPT
 echo Installing Docker...
 curl -sSL https://get.docker.com/ | sh
-usermod -aG docker "$USER"
-sudo systemctl start docker
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+sudo systemctl daemon-reload
+sudo systemctl restart docker.service
 echo "For this Stack, you will use $(ip -f inet addr show eth1 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') IP Address"
 sleep 5
+echo "The Virtual machine Centos 7.6 has been installed >>> Last reboot !!!"
+sudo reboot
 SCRIPT
 
 Vagrant.configure('2') do |config|
@@ -100,7 +107,7 @@ Vagrant.configure('2') do |config|
     mpdocker.vbguest.auto_update = false
     mpdocker.vm.network :private_network, ip: IP
     mpdocker.vm.network :forwarded_port, guest: 5000, host: 5000
-    mpdocker.vm.network :forwarded_port, guest: 8080, host: 80
+    mpdocker.vm.network :forwarded_port, guest: 80, host: 8080
     mpdocker.vm.hostname = "mpdocker"
     mpdocker.vm.synced_folder ".", "/vagrant"
     mpdocker.vm.provision "shell", inline: $install_git, privileged: true
