@@ -78,7 +78,9 @@ echo Stop Update System...
 sudo systemctl stop packagekit.service && sudo systemctl disable packagekit.service
 echo "For this virtual machine, no update will be made the version Centos 7.6 will remain fixed"
 SCRIPT
+
 $install_git = <<SCRIPT
+sudo yum install -y yum-utils
 echo Install and configure git...
 sudo yum install git -y
 git config --global user.name "christophe-freijanes"
@@ -86,36 +88,25 @@ git config --global user.email "cfreijanes@gmx.fr"
 git config --global core.editor vi
 sleep 5
 SCRIPT
-$install_Dev_Tools = <<SCRIPT
-echo Installing Development Tools...
-sudo yum groups mark install "Development Tools"
-sudo yum groups mark convert "Development Tools"
-sudo yum groupinstall "Development Tools" -y
-sudo yum install -y yum-utils
-sleep 5
-SCRIPT
+
 $install_docker_script = <<SCRIPT
 echo Installing Docker...
-sudo curl -fsSL https://get.docker.com -o get-docker.sh
-DRY_RUN=1 sh ./get-docker.sh
-sudo groupadd docker
+curl -sSL https://get.docker.com/ | sh
 sudo usermod -aG docker $USER
-sudo systemctl enable docker.service
-sudo systemctl enable containerd.service
-sudo systemctl daemon-reload
-sudo systemctl restart docker.service
+sudo systemctl enable docker
+sudo systemctl start docker
 echo Docker has been installed...
 echo Installing Docker-compose...
+sudo mkdir -p /opt/bin/
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
-$ sudo chmod +x /usr/local/bin/docker-compose
-$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 echo Docker-Compose has been installed...
 echo "For this Stack, you will use $(ip -f inet addr show eth1 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') IP Address"
 sleep 5
 echo "The Virtual machine Centos 7.6 has been installed >>> Last reboot !!!"
 sudo reboot
 SCRIPT
+
 # The vagrant config for virtual machine named mpdocker
 Vagrant.configure('2') do |config|
   config.vm.define :mpdocker, primary: true  do |mpdocker|
@@ -128,7 +119,6 @@ Vagrant.configure('2') do |config|
     mpdocker.vm.hostname = "mpdocker"
     mpdocker.vm.synced_folder ".", "/vagrant"
     mpdocker.vm.provision "shell", inline: $install_git, privileged: true
-    mpdocker.vm.provision "shell", inline: $install_Dev_Tools, privileged: true
     mpdocker.vm.provision "shell", inline: $install_docker_script, privileged: true
     mpdocker.vm.provider "virtualbox" do |vb|
       vb.name = "mpdocker"
@@ -178,13 +168,20 @@ docker-compose version 1.29.2, build 5becea4c
 ```
 ```bash
 $ ip a
-10.0.0.200
+...
+3: eth1: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 08:00:27:24:c7:d8 brd ff:ff:ff:ff:ff:ff
+    inet 10.0.0.200/24 brd 10.0.0.255 scope global noprefixroute eth1
+       valid_lft forever preferred_lft forever
+    inet6 fe80::a00:27ff:fe24:c7d8/64 scope link
+       valid_lft forever preferred_lft forever
+...
 ```
 ## RECUPERATION DU CODE
 1. Depuis mpdocker (Host) copier le code de l' API a la racine "/"
 ```bash
 $ cd /
-$ git clone https://github.com/diranetafen/student-list.git
+$ sudo git clone https://github.com/diranetafen/student-list.git
 ```
 2. Verification de l'emplacement du code
 ```bash
