@@ -7,7 +7,7 @@ Prerequis :
 * Avoir un editeur de texte
 * Creation VM-Centos 7.6 from vagrantfile
 
-###Depuis la machine local:
+### Depuis la machine local (Host):
 1. Creation d'un dossier qui va contenir mon vagrantfile
 ```bash
 PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
@@ -148,18 +148,22 @@ $ ip a
   10.0.0.200
 ```
 # RECUPERATION DU CODE
-  1-Depuis mpdocker (Host) copier le code de l' API a la racine "/"
-  $ cd /
-  $ git clone https://github.com/diranetafen/student-list.git
-  
-  2-Verification de l'emplacement du code
-  $ ls -alh /student-list/
-
+1. Depuis mpdocker (Host) copier le code de l' API a la racine "/"
+```bash
+$ cd /
+$ git clone https://github.com/diranetafen/student-list.git
+```
+2. Verification de l'emplacement du code
+```bash
+$ ls -alh /student-list/
+```
 # CREATION DU DOCKERFILE
-  1-Ce deplacer dans le dossier de l'application
-  $ cd /student-list/simple_api/
-
-  2-Edition du Dockerfile
+1. Ce deplacer dans le dossier de l'application
+```bash
+$ cd /student-list/simple_api/
+```
+2. Edition du Dockerfile
+```bash
 FROM python:2.7-stretch
 LABEL maintainer=Christophe-Freijanes mail=cfreijanes@gmx.fr  
 # Dependencies for the system
@@ -174,29 +178,19 @@ VOLUME [ "/data" ]
 COPY student_age.py /
 # Run the server python and start api
 CMD [ "python", "./student_age.py" ]
-
+```
 # EDITION INDEX.PHP
-  1-Edition de la page index.php
-  $ vi /student-list/website/index.php
-  
-  2-Modifer la ligne 29 du Code
-  $url = 'http://<api_ip_or_name:port>/pozos/api/v1.0/get_student_ages';
-  par
-  $url = 'http://$hostname:5000/pozos/api/v1.0/get_student_ages' ;
-
-  3-Enregistrer les modifications part 1 ;)
-
-# EDITION INDEX.PHP
-  1-Edition de la page index.php
-  $ vi /student-list/website/index.php
-  
-  2-Modifer la ligne 29 du Code
-  $url = 'http://<api_ip_or_name:port>/pozos/api/v1.0/get_student_ages';
-  par
-  $url = 'http://10.0.0.200:5000/pozos/api/v1.0/get_student_ages' ;
-
-  3-Enregistrer les modifications part 1 ;)
-
+1. Edition de la page index.php
+```bash
+$ vi /student-list/website/index.php
+```
+2. Modifer la ligne 29 du Code
+```bash
+$url = 'http://<api_ip_or_name:port>/pozos/api/v1.0/get_student_ages';
+par
+$url = 'http://$hostname:5000/pozos/api/v1.0/get_student_ages' ;
+```
+3. Enregistrer les modifications part 1 ;)
 # EDITION DU FICHIER DES VARIABLES
  1-Creation et edition d'un fichier contenant les variables
  
