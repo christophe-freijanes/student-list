@@ -188,11 +188,11 @@ $ sudo git clone https://github.com/diranetafen/student-list.git
 $ ls -alh /student-list/
 ```
 ## CREATION DU DOCKERFILE
-1. Ce deplacer dans le dossier de l'application
+1. Edition du Dockerfile
 ```bash
-$ cd /student-list/simple_api/
+$ sudo vi /student-list/simple_api/Dockerfile
 ```
-2. Edition du Dockerfile
+NB: La touche I c'est la vie ! :)
 ```bash
 FROM python:2.7-stretch
 LABEL maintainer=Christophe-Freijanes mail=cfreijanes@gmx.fr  
@@ -212,7 +212,7 @@ CMD [ "python", "./student_age.py" ]
 ## EDITION INDEX.PHP
 1. Edition de la page index.php
 ```bash
-$ vi /student-list/website/index.php
+$ sudo vi /student-list/website/index.php
 ```
 2. Modifer la ligne 29 du Code
 ```bash
@@ -224,7 +224,7 @@ $url = 'http://$hostname:5000/pozos/api/v1.0/get_student_ages';
 ## EDITION DU FICHIER DES VARIABLES
 1. Creation et edition d'un fichier contenant les variables
 ```bash
-$ vi /student-list/.env_prod
+$ sudo vi /student-list/.env_prod
 USERNAME=toto
 PASSWORD=python
 APIHOST=api
@@ -244,6 +244,9 @@ local     data
 3. Detail du volume data
 ```bash
 $ sudo docker volume inspect data
+```
+Output :
+```bash
 [
     {
         "CreatedAt": "2021-11-07T17:46:02Z",
@@ -259,97 +262,108 @@ $ sudo docker volume inspect data
 ## CREATION NETWORK
 1. Creation d'un reseau pour permettre aux conteneurs de communiquer mais aussi d'etre accessible depuis l'exterieur du host
 ```bash
-$ docker network create -d bridge study-net
+$ sudo docker network create -d bridge study-net
 93acfcd1907eb7cda5c5cb01c73750522abd1505703eba12a07a5069a12f1685
 ```
 2. Liste des network disponible
 ```bash
-$ docker network ls
+$ sudo docker network ls
 NETWORK ID     NAME        DRIVER    SCOPE
 8740347493ef   bridge      bridge    local
 752df8a6eaeb   host        host      local
 d4795f64a489   none        null      local
 93acfcd1907e   study-net   bridge    local
 ```
-## BUILD AND RUN DOCKER IMAGE  =================================================================
+## BUILD AND RUN DOCKER IMAGE
 1. Creation de l'image pour notre conteneur api
 ```bash
-$ docker build -t study-list_api:v1.0 .
+$ cd /student-list/simple_api/
+$ sudo docker build -t study-list_api:v1.0 .
 ```
 2. Verification de l'image
 ```bash
-$ docker images
+$ sudo docker images
 REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 study-list_api   v1.0          4c056fe48362   6 seconds ago   1.13GB
 python             2.7-stretch   e71fc5c0fcb1   18 months ago   928MB
 ```
 3. Tag de l'image de l'apllication
 ```bash
-$ docker tag bfbaca16bb5f cfreijanes/study-list_api:v1.0
+$ sudo docker tag 363b08be241c cfreijanes/study-list_api:v1.0
 ```  
 4. Creation d'un repositorie depuis son docker-hub
 ```bash
 https://hub.docker.com/repositories
 ```
 CAPTURE
-5. Push de l'image vers le repositorie de son docker-hub
+5. Connexion au Docker-hub
 ```bash
-$ docker push cfreijanes/study-list_api:v1.0
+$ sudo docker login -u <USERNAME> -p <PASSWORD>
 ```
-6. Verification de nos microservices actifs
+6. Push de l'image vers le repositorie de son docker-hub
 ```bash
-$ docker ps
+$ sudo docker push cfreijanes/study-list_api:v1.0
+```
+7. Verification de nos microservices actifs ou non
+```bash
+$ sudo docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
-7. Creation du conteneur
+8. Creation du deuxieme conteneur student-list_web
 * Demarrer l'image docker
-* Creation et execution du conteneur student-list_web puis execution du conteneur
+* Creation et execution du conteneur student-list_web puis execution du conteneur contenant notre API
 ```bash
-$ docker run -it --name student-list_web --network study-net -d -p 8080:80 -v /website:/var/www/html/ php:apache
+$ sudo docker run -it --name student-list_web --network study-net -d -p 8080:80 -v /website:/var/www/html/ php:apache
 ```
 ```bash
-$ docker run -it --name student-list_api --network study-net -d -p 5000:5000 -v /student-list/simple_api/student_age.json:/data/student_age.json student-list_api:v1
+$ sudo docker run -it --name student-list_api --network study-net -d -p 5000:5000 -v /student-list/simple_api/student_age.json:/data/student_age.json student-list_api:v1.0
 ```
-8. Verification de nos microservices actifs
+9. Verification de nos microservices actifs
 ```bash
-$ docker ps -a
+$ sudo docker ps -a
+```
+10. Test de l'API
+```bash
+$ curl -u toto:python -X GET http://$HOSTNAME:5000/pozos/api/v1.0/get_student_ages
+{
+  "student_ages": {
+    "alice": "12",
+    "bob": "13"
+  }
+}
 ```
 ## NETTOYAGE DE NOTRE API
-1. Stopper les conteneurs a nettoyer
 ```bash
-$ docker ps
-$ docker stop student-list_web
-$ docker stop student-list_api
+1. Lister les conteneurs
+$ sudo docker ps -a
+CONTAINER ID   IMAGE                 COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+4d3626d0af8c   study-list_api:v1.0   "python ./student_ag…"   3 minutes ago   Up 3 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   study-list_api
+a01dcea3b59d   php:apache            "docker-php-entrypoi…"   8 minutes ago   Up 8 minutes   0.0.0.0:8080->80/tcp, :::8080->80/tcp       student-list_web
 ```
-2. Lister les images
+2. Stopper les conteneurs a nettoyer
 ```bash
-$ docker images -a
+$ sudo docker ps
+$ sudo docker stop student-list_web
+$ sudo docker stop study-list_api
 ```
-3. Suppression des images
+3. Suppression des conteneurs
 ```bash
 $ docker rmi Image Image
 ```
-## INSTALLER DOCKER-COMPOSE
-Derniere release : https://docs.docker.com/compose/install/
-
-1. Installation de docker-compose
+4. Verification que les conteneurs ne sont plus present
 ```bash
-$ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-$ sudo chmod +x /usr/local/bin/docker-compose
-```
-2. Verification de la version
-```bash
-$ docker-compose -v
-docker-compose version 1.29.2, build 5becea4c
-```
-* Si ne fonctionne pas erreur "command not found"
-```bash
-$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+$ sudo docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 ## BUILD AND RUN DOCKER-COMPOSE
 1. Edition du docker-compose
 ```bash
-$ vi /student_list/docker-compose.yml
+$ cd /student_list
+```
+```bash
+$ sudo vi /student_list/docker-compose.yml
+```
+```bash
 version: '3.1'
 services:
   api:
@@ -388,7 +402,7 @@ networks:
 ```
 2. Run le docker-compose
 ```bash
-$ docker-compose up -d
+$ sudo docker-compose up -d
 ```
 
 
