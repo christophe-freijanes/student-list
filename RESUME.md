@@ -9,7 +9,7 @@ Prerequis :
 
 Depuis la machine local:
     1-Creation d'un dossier qui va contenir mon vagrantfile
-    ```code
+    ```bash
     PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> mkdir H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM\
     ```
     2-Initialisation d'un vagrantfile (option -m = configuration minimum)
