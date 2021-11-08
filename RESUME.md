@@ -7,23 +7,30 @@ Notre virtual machine se nommera "mpdocker" elle sera le host qui permettra de f
 * Savoir utiliser Powershell
 * Avoir un editeur de texte (Notepad++, VSCode)
 * Creation d'une virtual machine avec un OS:Centos 7.6 depuis un vagrantfile
-* Le provisionement du syteme doit avoir un minimun ses paquets d'installer
-** git
-** docker
-** docker-compose
+* Le provisionement du syteme doit avoir au minimun ses paquets d'installer
+*git
+*docker
+*docker-compose
 ### Depuis votre machine local (Host):
 1. Creation d'un dossier qui va contenir mon vagrantfile
 ```bash
-PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
-mkdir H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM\
+PS H:\PROJETS\repo\student-list> 
+mkdir H:\PROJETS\repo\student-list\mpdocker\
 ```
 2. Initialisation d'un vagrantfile (option -m = configuration minimum)
 ```bash
-PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+PS H:\PROJETS\repo\student-list\mpdocker> 
 vagrant init -m
 ```
-CAPTURE-02-VM-Initialisation d'un vagrantfile.PNG
+Exemple output :
+```bash
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
+Vagrant.configure("2") do |config|
+  config.vm.box = "base"
+end
+```
 3. On recupere la version Centos 7.6 pour son provider VirtualBox
 ```bash
 https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=virtualbox&q=centos+7.6
@@ -34,11 +41,9 @@ Vagrant.configure("2") do |config|
   config.vm.box_version = "1.0.0"
 end
 ```
-4. Edition du vagrantfile d'apres les prerquis pour la creation de la VM
-* CentOS 7.6
-* Docker
+4. Ouvrir le vagrantfile depuis votre editeur de texte favoris ;)
 ```bash
-$ vi vagrantfile
+PS H:\PROJETS\repo\student-list\mpdocker>vagrantfile
 ```
 ```bash
 # -*- mode: ruby -*-
@@ -91,13 +96,21 @@ sleep 5
 SCRIPT
 $install_docker_script = <<SCRIPT
 echo Installing Docker...
-curl -sSL https://get.docker.com/ | sh
+sudo curl -fsSL https://get.docker.com -o get-docker.sh
+DRY_RUN=1 sh ./get-docker.sh
 sudo groupadd docker
 sudo usermod -aG docker $USER
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
 sudo systemctl daemon-reload
 sudo systemctl restart docker.service
+echo Docker has been installed...
+echo Installing Docker-compose...
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+$ sudo chmod +x /usr/local/bin/docker-compose
+$ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+echo Docker-Compose has been installed...
 echo "For this Stack, you will use $(ip -f inet addr show eth1 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') IP Address"
 sleep 5
 echo "The Virtual machine Centos 7.6 has been installed >>> Last reboot !!!"
@@ -127,41 +140,45 @@ end
 ```
 5. Installation des plugins vagrant
 ```bash
-PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+PS H:\PROJETS\repo\student-list\mpdocker> 
 vagrant plugin install vagrant-winnfsd
-PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+PS H:\PROJETS\repo\student-list\mpdocker> 
 vagrant plugin install vagrant-vbguest
-PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+PS H:\PROJETS\repo\student-list\mpdocker> 
 vagrant plugin install vagrant-share
 ```	
 6. Verification de son vagrantfile
 ```bash
-PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+PS H:\PROJETS\repo\student-list\mpdocker> 
 vagrant validate
 Vagrantfile validated successfully.
 ```
-7. Creation de la VM avec docker
+7. Creation de la machine virtuelle "mpdocker"
 ```bash
-PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM>
+PS H:\PROJETS\repo\student-list\mpdocker>
 vagrant up
 ```
-8. Connexion a la VM en ssh
+8. Connexion en ssh depuis votre prompt
 ```bash
-PS H:\PROJETS\repo\formation\DevOps\docker\miniprojet\VM> 
+PS H:\PROJETS\repo\student-list\mpdocker> 
 vagrant ssh mpdocker
 ```
 9. Verification apres installation
 ```bash
-$ cat /etc/redhat-release 
-  CentOS Linux release 7.6.1810 (Core)
+$ cat /etc/redhat-release
+CentOS Linux release 7.6.1810 (Core)
 ```
 ```bash
 $ docker -v
-  Docker version 20.10.10, build b485636
+Docker version 20.10.10, build b485636
+```
+```bash
+$ docker-compose -v
+docker-compose version 1.29.2, build 5becea4c
 ```
 ```bash
 $ ip a
-  10.0.0.200
+10.0.0.200
 ```
 ## RECUPERATION DU CODE
 1. Depuis mpdocker (Host) copier le code de l' API a la racine "/"
