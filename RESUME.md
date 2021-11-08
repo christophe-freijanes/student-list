@@ -192,24 +192,27 @@ $url = 'http://$hostname:5000/pozos/api/v1.0/get_student_ages' ;
 ```
 3. Enregistrer les modifications part 1 ;)
 # EDITION DU FICHIER DES VARIABLES
- 1-Creation et edition d'un fichier contenant les variables
- 
- $ vi /student-list/.env_prod
- USERNAME=toto
- PASSWORD=python
- APIHOST=api
-
+1. Creation et edition d'un fichier contenant les variables
+```bash
+$ vi /student-list/.env_prod
+USERNAME=toto
+PASSWORD=python
+APIHOST=api
+```
 # CREATION VOLUME
-  1-Creation d'un volume persistant
-  $ sudo docker volume create data
-
-  2- Lister les volumes
-  $ sudo docker volume ls
-  DRIVER    VOLUME NAME
-  local     data
-  
-  3-Detail du volume data
-  $ sudo docker volume inspect data
+1. Creation d'un volume persistant
+```bash
+$ sudo docker volume create data
+```
+2. Lister les volumes
+```bash
+$ sudo docker volume ls
+DRIVER    VOLUME NAME
+local     data
+```  
+3. Detail du volume data
+```bash
+$ sudo docker volume inspect data
 [
     {
         "CreatedAt": "2021-11-07T17:46:02Z",
@@ -221,20 +224,22 @@ $url = 'http://$hostname:5000/pozos/api/v1.0/get_student_ages' ;
         "Scope": "local"
     }
 ]
-
+```
 # CREATION NETWORK
-  1-Creation d'un reseau pour permettre aux conteneurs de communiquer mais aussi d'etre accessible depuis l'exterieur du host
-  $ docker network create -d bridge study-net
-  93acfcd1907eb7cda5c5cb01c73750522abd1505703eba12a07a5069a12f1685
-
-  2-Liste des network disponible
-  $ docker network ls
-  NETWORK ID     NAME        DRIVER    SCOPE
-  8740347493ef   bridge      bridge    local
-  752df8a6eaeb   host        host      local
-  d4795f64a489   none        null      local
-  93acfcd1907e   study-net   bridge    local
-
+1. Creation d'un reseau pour permettre aux conteneurs de communiquer mais aussi d'etre accessible depuis l'exterieur du host
+```bash
+$ docker network create -d bridge study-net
+93acfcd1907eb7cda5c5cb01c73750522abd1505703eba12a07a5069a12f1685
+```
+2. Liste des network disponible
+```bash
+$ docker network ls
+NETWORK ID     NAME        DRIVER    SCOPE
+8740347493ef   bridge      bridge    local
+752df8a6eaeb   host        host      local
+d4795f64a489   none        null      local
+93acfcd1907e   study-net   bridge    local
+```
 #BUILD AND RUN DOCKER IMAGE  =================================================================
   1-Creation de l'image pour notre conteneur api
   $ docker build -t student-list_api:v1.0 .
