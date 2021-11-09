@@ -113,7 +113,6 @@ Vagrant.configure('2') do |config|
   end
 end
 ```
-```
 5. Installation des plugins vagrant
 ```bash
 PS H:\PROJETS\repo\student-list\mpdocker>
