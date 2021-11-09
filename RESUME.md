@@ -316,12 +316,8 @@ sudo docker tag 363b08be241c cfreijanes/student-list_api:v1.0
 ##
 Lien : [Docker-Hub repositories ](https://hub.docker.com/repositories)
 ##
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-CAPTURE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/0-1.png)
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/0-2.png)
 5. Connexion au Docker-hub
 ```bash
 sudo docker login -u <USERNAME> -p <PASSWORD>
@@ -363,11 +359,73 @@ curl -u toto:python -X GET http://$HOSTNAME:5000/pozos/api/v1.0/get_student_ages
 }
 ```
 ## AUTOMATISATION AVEC GITHUB
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
+Prerequis :
+- Avoir un compte Docker-hub permettant le build (payant).
+- Avoir creer une image depuis votre host.
+- Avoir pusher cette image sur votre repository Docker-hub.
+- Avoir un repository sur Github dans lequel sera construite votre Dockerfile.
+Dans cet exemple j'ai creer un repository docker-pozos sur mon Github.
+### Depuis son PC local vers Github
+1. Cloner le repository que vous venez de creer depuis votre Github
+```bash
+git clone git@github.com:christophe-freijanes/docker-pozos.git
+```
+2. Depuis le prompt on ce rends dans notre repertoire
+```bash
+ cd .\docker-pozos\
+```
+3. On va rendre dynamique le build de notre Dockerfile, biensur pour que cela fonctionne vous devait avoir le Dockerfile entre votre machine local et votre VM. Utiliser un editeur de text pour copier coller votre code et l'enregistrer.
+```bash
+FROM python:2.7-stretch
+LABEL maintainer=Christophe-Freijanes mail=cfreijanes@gmx.fr  
+# Dependencies for the system
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && apt-get install python-dev python3-dev libsasl2-dev python-dev libldap2-dev libssl-dev -y
+# Installation Flask
+RUN pip install flask==1.1.2 flask_httpauth==4.1.0 flask_simpleldap python-dotenv==0.14.0
+# Configure network for API
+EXPOSE 5000
+# Configuration volume /data
+VOLUME [ "/data" ]
+# Copy the script student_age.py to /
+COPY student_age.py /
+# Run the server python and start api
+CMD [ "python", "./student_age.py" ]
+```
+4. Commande git a executer pour pusher le repo local
+```bash
+git init
+```
+```bash
+git add Dockerfile README.md
+```
+```bash
+git commit -am "first commit"
+```
+```bash
+git remote add origin https://github.com/christophe-freijanes/docker-pozos.git
+```
+```bash
+git push -u origin master
+```
+### Depuis Docker-Hub vers Github
+1. Choisir le repository ou ce situe votre image
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/01.PNG)
+2. Parametrage a faire depuis votre compte
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/02.png)
+3. Connexion a faire entre votre Github et Docker-Hub
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/03.png)
+4. Aller dans votre repository contenant votre image
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/04.png)
+5. Parametrage de votre Builds
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/05.png)
+6. Choisir le repository de Github que vous souhaitez synchroniser
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/06.png)
+7. Il ne reste plus cas faire ??? 
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/07.png)
+NB: Attention ne fermer pas la page cela peut-etre long, tout depend de la taille de l'image of course ;)
+8. Si le build ne se fait pas verifier depuis les settings que le lien vers votre Docker-hub et votre Github est implementer
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/08.png)
+
 ## NETTOYAGE DE NOTRE API
 1. Lister les conteneurs
 ```bash
