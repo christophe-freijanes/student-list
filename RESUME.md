@@ -283,6 +283,7 @@ Output :
 ```bash
 sudo docker network create -d bridge study-net
 ```
+Exemple output :
 ```bash
 93acfcd1907eb7cda5c5cb01c73750522abd1505703eba12a07a5069a12f1685
 ```
@@ -476,17 +477,16 @@ sudo docker stop student-list_web
 sudo docker stop student-list_api
 ```
 3. Suppression des conteneurs et des images
+- Supprimer les deux conteneurs
 ```bash
-docker rm 4d3626d0af8c
+docker rm <CONTAINER ID>
 ```
 ```bash
-docker rm a01dcea3b59d
+docker images
 ```
+- Supprimer les 4 images de haut en bas c'est mieux :)
 ```bash
-docker rmi 4c056fe48362
-```
-```bash
-docker rmi e71fc5c0fcb1
+docker rmi <IMAGE ID>
 ```
 4. Verification que les conteneurs ne sont plus present
 ```bash
