@@ -11,6 +11,7 @@ services:
         restart:
             - 'always'
         volumes:
+            - '/student-list/simple_api/student_age.py:/data/student_age.py'
             - '/student-list/simple_api/student_age.json:/data/student_age.json'
     web:
         container_name: student-list_web

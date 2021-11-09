@@ -356,6 +356,7 @@ $ sudo docker ps -a
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 ```
 ## BUILD AND RUN DOCKER-COMPOSE
+1. 
 1. Edition du docker-compose
 ```bash
 $ cd /student_list
@@ -397,12 +398,14 @@ networks:
 ```
 2. Run le docker-compose
 ```bash
-$ sudo docker-compose up -d
+$ docker-compose up -d
 ```
-Congratulation !
+Output:
 ```bash
 Creating student-list_api_1 ... done
 Creating student-list_web_1 ... done
 ```
+3. Test de l'API
+CAPTURE
 
 
