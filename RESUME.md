@@ -2,7 +2,7 @@
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/VBoxVagrantCentOS.jpg)
 ##
 ## CREATION DE LA VM
-Notre virtual machine se nommera "mpdocker" elle sera le host qui permettra de faire fonctionner les conteneurs.
+Notre machine virtuelle se nommera "mpdocker" elle sera le host qui permettra de faire fonctionner les conteneurs.
 ### Prerequis:
 * Une machine local sous Linux, Windows, MacOS
 * Avoir une connexion reseau
@@ -572,86 +572,23 @@ Congratulation !
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/privateRegistry.jpg)
 ##
-1. Deployer une autre machine identique et de la meme facon que "mpdocker" sauf que dans cet exemple on la nommera "regdocker"
+1. Deployer une autre machine virtuelle  dans cet exemple on la nommera "regdocker"
 ```bash
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-RAM = 2048
-CPU = 2
-IP = "10.0.0.210"
-
-# Check Vagrant plugins
-# If you want to ensure that vagrant-winnfsd is installed and enabled every time you run your vagrant box, just add the following to your vagrant file, just before the code block
-if Vagrant::Util::Platform.windows? then
-  unless Vagrant.has_plugin?("vagrant-winnfsd")
-    raise  Vagrant::Errors::VagrantError.new, "vagrant-winnfsd plugin is missing. Please install it using 'vagrant plugin install vagrant-winnfsd' and rerun 'vagrant up'"
-  end
-end
-# If you want to ensure that vagrant-vbguest is installed and enabled every time you run your vagrant box, just add the following to your vagrant file, just before the code block
-if Vagrant::Util::Platform.windows? then
-  unless Vagrant.has_plugin?("vagrant-vbguest")
-    raise  Vagrant::Errors::VagrantError.new, "vagrant-vbguest plugin is missing. Please install it using 'vagrant plugin install vagrant-vbguest' and rerun 'vagrant up'"
-  end
-end
-# If you want to ensure that vagrant-share is installed and enabled every time you run your vagrant box, just add the following to your vagrant file, just before the code block
-if Vagrant::Util::Platform.windows? then
-  unless Vagrant.has_plugin?("vagrant-share")
-    raise  Vagrant::Errors::VagrantError.new, "vagrant-share plugin is missing. Please install it using 'vagrant plugin install vagrant-share' and rerun 'vagrant up'"
-  end
-end
-# SCRIPT for provisioning the magic system :)
-$no_update_system = <<SCRIPT
-echo Stop Update System...
-sudo systemctl stop packagekit.service && sudo systemctl disable packagekit.service
-echo "For this virtual machine, no update will be made the version Centos 7.6 will remain fixed"
-SCRIPT
-
-$install_git = <<SCRIPT
-sudo yum install -y yum-utils
-echo Install and configure git...
-sudo yum install git -y
-git config --global user.name "christophe-freijanes"
-git config --global user.email "cfreijanes@gmx.fr"
-git config --global core.editor vi
-sleep 5
-SCRIPT
-
-$install_docker_script = <<SCRIPT
-echo Installing Docker...
-curl -sSL https://get.docker.com/ | sh
-sudo usermod -aG docker $USER
-sudo systemctl enable docker
-sudo systemctl start docker
-echo Docker has been installed...
-echo Installing Docker-compose...
-sudo mkdir -p /opt/bin/
-sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
-echo Docker-Compose has been installed...
-echo "For this Stack, you will use $(ip -f inet addr show eth1 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') IP Address"
-sleep 5
-echo "The Virtual machine Centos 7.6 has been installed >>> Last reboot !!!"
-sudo reboot
-SCRIPT
-
-# The vagrant config for virtual machine named regdocker
-Vagrant.configure('2') do |config|
-  config.vm.define :regdocker, primary: true  do |regdocker|
-    regdocker.vm.box = "komlevv/centos-7.6"
-    regdocker.vm.box_version = "1.0.0"
-    regdocker.vbguest.auto_update = false
-    regdocker.vm.network :private_network, ip: IP
-    regdocker.vm.network :forwarded_port, guest: 5001, host: 5001
-    regdocker.vm.network :forwarded_port, guest: 80, host: 8090
+Vagrant.configure("2") do |config|
+  config.vm.define "regdocker" do |regdocker|
+    regdocker.vm.box = "geerlingguy/centos7"
+    regdocker.vm.network "private_network", type: "dhcp"
     regdocker.vm.hostname = "regdocker"
-    regdocker.vm.synced_folder ".", "/vagrant"
-    regdocker.vm.provision "shell", inline: $install_git, privileged: true
-    regdocker.vm.provision "shell", inline: $install_docker_script, privileged: true
-    regdocker.vm.provider "virtualbox" do |vb|
-      vb.name = "regdocker"
-      vb.memory = RAM
-  	  vb.cpus = CPU
+    regdocker.vm.provider "virtualbox" do |v|
+      v.name = "regdocker"
+      v.memory = 2048
+      v.cpus = 2
+    end
+    regdocker.vm.provision :shell do |shell|
+      shell.path = "install_regdocker.sh"
     end
   end
 end
