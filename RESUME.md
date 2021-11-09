@@ -560,10 +560,10 @@ CONTAINER ID   IMAGE              COMMAND                  CREATED         STATU
 78378f485a3e   php:apache         "docker-php-entrypoi…"   2 minutes ago   Up 2 minutes   0.0.0.0:8080->80/tcp, :::8080->80/tcp       student-list_web_1
 e247a778b5c3   student-list_api   "python ./student_ag…"   2 minutes ago   Up 2 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   student-list_api_1
 ```
+##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/result.png)
+##
 Congratulation !
-
-
 ##
 ## PRIVATE DOCKER-REGISTRY
 ##
