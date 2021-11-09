@@ -27,7 +27,28 @@ PS H:\PROJETS\repo\student-list\mpdocker>
 ```bash 
 vagrant init -m
 ```
-3. Copier/Coller ce vagrantfile
+Exemple output :
+```bash
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "base"
+end
+```
+3. On recupere la version Centos 7.6 pour son provider VirtualBox
+##
+Version image : [Vagrant Centos 7.6](https://app.vagrantup.com/boxes/search?utf8=%E2%9C%93&sort=downloads&provider=virtualbox&q=centos+7.6)
+```bash
+Vagrant.configure("2") do |config|
+  config.vm.box = "komlevv/centos-7.6"
+  config.vm.box_version = "1.0.0"
+end
+```
+4. Ouvrir le vagrantfile depuis votre editeur de texte favoris ;)
+```bash
+PS H:\PROJETS\repo\student-list\mpdocker>vagrantfile
+```
 ```bash
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
@@ -110,7 +131,6 @@ Vagrant.configure('2') do |config|
     end
   end
 end
-```
 ```
 5. Installation des plugins vagrant
 ```bash
