@@ -389,7 +389,7 @@ git clone git@github.com:christophe-freijanes/docker-pozos.git
 ```bash
  cd .\docker-pozos\
 ```
-3. On va rendre dynamique le build de notre Dockerfile, biensur pour que cela fonctionne vous devait avoir le Dockerfile entre votre machine local et votre VM. Utiliser un editeur de text pour copier coller votre code et l'enregistrer.
+3. On va rendre dynamique le build de notre Dockerfile, biensur pour que cela fonctionne vous devez avoir le Dockerfile, student_age.py et student_age.json entre votre machine local et votre VM. Utiliser un editeur de text pour copier coller votre code et l'enregistrer.
 ```bash
 FROM python:2.7-stretch
 LABEL maintainer=Christophe-Freijanes mail=cfreijanes@gmx.fr  
@@ -411,7 +411,7 @@ CMD [ "python", "./student_age.py" ]
 git init
 ```
 ```bash
-git add Dockerfile README.md
+git add Dockerfile README.md student_age.py student_age.json
 ```
 ```bash
 git commit -am "first commit"
@@ -547,11 +547,24 @@ networks:
 ```bash
 docker-compose up -d
 ```
-Congratulation !
 ```bash
 Creating student-list_api_1 ... done
 Creating student-list_web_1 ... done
 ```
+3. Verification de nos microservices
+```bash
+docker ps -a
+```
+```bash
+CONTAINER ID   IMAGE              COMMAND                  CREATED         STATUS         PORTS                                       NAMES
+78378f485a3e   php:apache         "docker-php-entrypoi…"   2 minutes ago   Up 2 minutes   0.0.0.0:8080->80/tcp, :::8080->80/tcp       student-list_web_1
+e247a778b5c3   student-list_api   "python ./student_ag…"   2 minutes ago   Up 2 minutes   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   student-list_api_1
+```
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/result.png)
+Congratulation !
+
+
+##
 ## PRIVATE DOCKER-REGISTRY
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/privateRegistry.jpg)
