@@ -354,6 +354,12 @@ sudo docker run -it --name student-list_api --network study-net -d -p 5000:5000 
 ```bash
 sudo docker ps -a
 ```
+```bash
+$ sudo docker ps -a
+CONTAINER ID   IMAGE                   COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+f86db3416969   student-list_api:v1.0   "python ./student_ag…"   9 seconds ago    Up 8 seconds    0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   student-list_api
+807d1dcdbd88   php:apache              "docker-php-entrypoi…"   35 seconds ago   Up 34 seconds   0.0.0.0:8080->80/tcp, :::8080->80/tcp       student-list_web
+```
 10. Test de l'API
 ```bash
 curl -u toto:python -X GET http://$HOSTNAME:5000/pozos/api/v1.0/get_student_ages
@@ -444,6 +450,7 @@ git push -u origin master
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/07.png)
 ##
 NB: Attention ne fermer pas la page cela peut-etre long, tout depend de la taille de l'image of course ;)
+##
 8. Si le build ne se fait pas verifier depuis les settings que le lien vers votre Docker-hub et votre Github est implementer
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/08.png)
