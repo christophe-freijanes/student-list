@@ -184,7 +184,7 @@ ip a
 ...
 ```
 ## RECUPERATION DU CODE
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png) Logo Github
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/logoGithub.PNG)
 1. Depuis mpdocker (Host) copier le code de l' API a la racine "/"
 ```bash
 cd /
@@ -197,7 +197,7 @@ sudo git clone https://github.com/diranetafen/student-list.git
 ls -alh /student-list/
 ```
 ## CREATION DU DOCKERFILE
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png) Docker
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/Docker.jpg)
 1. Edition du Dockerfile
 ```bash
 sudo vi /student-list/simple_api/Dockerfile
@@ -466,4 +466,4 @@ Creating student-list_api_1 ... done
 Creating student-list_web_1 ... done
 ```
 ## PRIVATE DOCKER-REGISTRY
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png) Workflow registry
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/privateRegistry.jpg)
