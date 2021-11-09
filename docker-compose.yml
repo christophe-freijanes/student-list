@@ -1,35 +1,30 @@
-version: '3.1'
+version: '3.3'
 services:
-  api:
-    build: /student-list/simple_api/
-    volumes:
-      - ./simple_api/student_age.json:/data/student_age.json
-    ports:
-      - "5000:5000"
-    env_file:
-      - .env_prod
-    environment:
-      - $USERNAME
-      - $PASSWORD
-    networks:
-      - study-net
-    restart: always
-  web:
-    image: php:apache
-    volumes:
-      - ./website:/var/www/html/
-    restart: always
-    env_file:
-      - .env_prod
-    environment:
-      - $USERNAME
-      - $PASSWORD
-      - $APIHOST
-    ports:
-      - "8080:80"
-    networks:
-      - study-net
-    depends_on:
-      - api
+    api:
+        build: '/student-list/simple_api/'
+        container_name: student-list_api
+        network_mode: study-net
+        ports:
+            - '5000:5000'
+        env_file:
+            - .env_prod
+        restart:
+            - 'always'
+        volumes:
+            - '/student-list/simple_api/student_age.json:/data/student_age.json'
+    web:
+        container_name: student-list_web
+        network_mode: study-net
+        ports:
+            - '8080:80'
+        env_file:
+            - .env_prod
+        restart:
+            - 'always'
+        volumes:
+            - '/website:/var/www/html/'
+        image: 'php:apache'
+        depends_on:
+            - 'api'
 networks:
-  study-net:
+    study-net:
