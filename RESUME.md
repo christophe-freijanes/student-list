@@ -593,11 +593,15 @@ Vagrant.configure("2") do |config|
   end
 end
 ```
-2. Ce connecter en ssh
+2. Deploiement de regdocker
+```bash
+vagrant up
+```
+3. Ce connecter en ssh
 ```bash
 vagrant ssh regdocker
 ```
-3. Creation d'un reseau "reg-study-net"
+4. Creation d'un reseau "reg-study-net"
 ```bash
  sudo docker network create reg-study-net
 ```
