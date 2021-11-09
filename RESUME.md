@@ -1,4 +1,4 @@
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png) VAGRANT
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/VBoxVagrantCentOS.jpg)
 ## CREATION DE LA VM
 Notre virtual machine se nommera "mpdocker" elle sera le host qui permettra de faire fonctionner les conteneurs.
 ### Prerequis:
