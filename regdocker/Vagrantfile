@@ -24,49 +24,19 @@ if Vagrant::Util::Platform.windows? then
     raise  Vagrant::Errors::VagrantError.new, "vagrant-share plugin is missing. Please install it using 'vagrant plugin install vagrant-share' and rerun 'vagrant up'"
   end
 end
-# SCRIPT for provisioning the magic system :)
-$install_docker_script = <<SCRIPT
-echo Installing Docker Registry...
-echo "Preparing node..."
-# Install dependent packages
-yum install -y yum-utils device-mapper-persistent-data lvm2 epel-release httpd-tools tree telnet
-# Setup docker repository
-yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
-# Update Yum cache
-yum makecache fast
-# Install docker
-yum install -y docker-ce
-# Install python-pip
-yum install -y python-pip
-# Install docker-compose
-pip install docker-compose
-# Start & enable docker
-systemctl start docker
-systemctl enable docker
-# Verify docker installation
-docker run --rm hello-world
-# Copy docker-registry.service into systemd
-cp /vagrant/registry/files/docker-registry.service /etc/systemd/system/
-# Enable and start docker-registry service
-systemctl enable docker-registry.service
-service docker-registry start
-SCRIPT
 
-# The vagrant config for virtual machine named regdocker
-Vagrant.configure('2') do |config|
-  config.vm.define :regdocker, primary: true  do |regdocker|
-    regdocker.vm.box = 'geerlingguy/centos7'
-    regdocker.vbguest.auto_update = false
-    regdocker.vm.network :private_network, ip: IP
-    regdocker.vm.hostname = "regdocker"
-    regdocker.vm.synced_folder ".", "/vagrant"
-    regdocker.vm.provision "shell", inline: $install_docker_script, privileged: true
-    regdocker.vm.provider "virtualbox" do |vb|
-      vb.name = "regdocker"
-      vb.memory = RAM
-  	  vb.cpus = CPU
-    end
+Vagrant.configure("2") do |config|
+  config.vm.define "regdocker" do |regdocker|
+    regdocker.vm.box = "ubuntu/xenial64"
+    regdocker.vm.network "private_network", ip: IP
+	  regdocker.vm.hostname = "regdocker"
+    regdocker.vm.provider "virtualbox" do |v|
+  	  v.name = "regdocker"
+  	  v.memory = RAM
+  	  v.cpus = CPU
+  	end
+  	regdocker.vm.provision :shell do |shell|
+  	  shell.path = "install_docker.sh"
+    end 
   end
 end
