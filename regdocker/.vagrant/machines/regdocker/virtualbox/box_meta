@@ -1,1 +1,1 @@
-{"name":"geerlingguy/centos7","version":"1.2.25","provider":"virtualbox","directory":"boxes/geerlingguy-VAGRANTSLASH-centos7/1.2.25/virtualbox"}
+{"name":"ubuntu/xenial64","version":"20211001.0.0","provider":"virtualbox","directory":"boxes/ubuntu-VAGRANTSLASH-xenial64/20211001.0.0/virtualbox"}

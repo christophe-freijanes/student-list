@@ -282,9 +282,9 @@ Output :
 ]
 ```
 ## CREATION NETWORK
-1. Creation d'un reseau pour permettre aux conteneurs de communiquer entre eux mais aussi d'etre accessible depuis l'exterieur du host
+1. Creation d'un reseau pour permettre aux conteneurs de communiquer entre eux
 ```bash
-sudo docker network create -d bridge study-net
+sudo docker network create study-net
 ```
 Exemple output :
 ```bash
@@ -320,7 +320,7 @@ python             2.7-stretch   e71fc5c0fcb1   18 months ago   928MB
 ```
 3. Tag de l'image de l'apllication
 ```bash
-sudo docker tag 363b08be241c cfreijanes/student-list_api:v1.0
+sudo docker tag <IMAGE ID> cfreijanes/student-list_api:v1.0
 ```  
 4. Creation d'un repositorie depuis son docker-hub
 ##
@@ -417,7 +417,7 @@ git init
 git add Dockerfile README.md student_age.py student_age.json
 ```
 ```bash
-git commit -am "first commit"
+git commit -am "Creation repo docker-pozos"
 ```
 ```bash
 git remote add origin https://github.com/christophe-freijanes/docker-pozos.git
@@ -508,10 +508,10 @@ REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 ## BUILD AND RUN DOCKER-COMPOSE
 1. Edition du docker-compose
 ```bash
-cd /student_list
+cd ..
 ```
 ```bash
-sudo vi /student_list/docker-compose.yml
+sudo vi docker-compose.yml
 ```
 ```bash
 version: '3.3'
@@ -600,50 +600,20 @@ if Vagrant::Util::Platform.windows? then
     raise  Vagrant::Errors::VagrantError.new, "vagrant-share plugin is missing. Please install it using 'vagrant plugin install vagrant-share' and rerun 'vagrant up'"
   end
 end
-# SCRIPT for provisioning the magic system :)
-$install_docker_script = <<SCRIPT
-echo Installing Docker Registry...
-echo "Preparing node..."
-# Install dependent packages
-yum install -y yum-utils device-mapper-persistent-data lvm2 epel-release httpd-tools tree telnet
-# Setup docker repository
-yum-config-manager \
-    --add-repo \
-    https://download.docker.com/linux/centos/docker-ce.repo
-# Update Yum cache
-yum makecache fast
-# Install docker
-yum install -y docker-ce
-# Install python-pip
-yum install -y python-pip
-# Install docker-compose
-pip install docker-compose
-# Start & enable docker
-systemctl start docker
-systemctl enable docker
-# Verify docker installation
-docker run --rm hello-world
-# Copy docker-registry.service into systemd
-cp /vagrant/registry/files/docker-registry.service /etc/systemd/system/
-# Enable and start docker-registry service
-systemctl enable docker-registry.service
-service docker-registry start
-SCRIPT
 
-# The vagrant config for virtual machine named regdocker
-Vagrant.configure('2') do |config|
-  config.vm.define :regdocker, primary: true  do |regdocker|
-    regdocker.vm.box = 'geerlingguy/centos7'
-    regdocker.vbguest.auto_update = false
-    regdocker.vm.network :private_network, ip: IP
-    regdocker.vm.hostname = "regdocker"
-    regdocker.vm.synced_folder ".", "/vagrant"
-    regdocker.vm.provision "shell", inline: $install_docker_script, privileged: true
-    regdocker.vm.provider "virtualbox" do |vb|
-      vb.name = "regdocker"
-      vb.memory = RAM
-  	  vb.cpus = CPU
-    end
+Vagrant.configure("2") do |config|
+  config.vm.define "regdocker" do |regdocker|
+    regdocker.vm.box = "ubuntu/xenial64"
+    regdocker.vm.network "private_network", ip: IP
+	  regdocker.vm.hostname = "regdocker"
+    regdocker.vm.provider "virtualbox" do |v|
+  	  v.name = "regdocker"
+  	  v.memory = RAM
+  	  v.cpus = CPU
+  	end
+  	regdocker.vm.provision :shell do |shell|
+  	  shell.path = "install_docker.sh"
+    end 
   end
 end
 ```
@@ -657,25 +627,27 @@ vagrant ssh regdocker
 ```
 4. Creation d'un reseau "reg-study-net"
 ```bash
- sudo docker network create reg-study-net
+docker network create reg-study-net
 ```
 5. Creation du conteneur BACKEND
 ```bash
-sudo docker run -d -p 5000:5000 -e REGISTRY_STORAGE_DELETE_ENABLED=true --net reg-study-net --name reg-study-net registry:2
+docker run -d -p 5000:5000 -e REGISTRY_STORAGE_DELETE_ENABLED=true --net reg-study-net --name registry-study-net registry:2
 ```
 6. Creation du conteneur FRONTEND 
 ```bash
-sudo docker run -d -p 8090:80 --net reg-study-net -e REGISTRY_URL=http://registry-study-net:5000 -e DELETE_IMAGES=true -e REGISTRY_TITLE=study-net --name fontend-study-net joxit/docker-registry-ui:1.5-static
+docker run -d -p 8090:80 --net reg-study-net -e REGISTRY_URL=http://registry-study-net:5000 -e DELETE_IMAGES=true -e REGISTRY_TITLE=reg-study-net --name fontend-study-net joxit/docker-registry-ui:1.5-static
 ```
 7. Verification de l' activitee de nos conteneurs
 ```bash
 docker ps
 ```
 ```bash
-
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED          STATUS          PORTS                                       NAMES
+4104823b1746   joxit/docker-registry-ui:1.5-static   "/docker-entrypoint.…"   9 seconds ago    Up 8 seconds    0.0.0.0:8090->80/tcp, :::8090->80/tcp       fontend-study-net
+47d021115527   registry:2                            "/entrypoint.sh /etc…"   27 seconds ago   Up 26 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry-study-net
 ```
 8. Connexion a la WEBGUI de notre registry
-![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/private_registry.png)
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/private-registry.png)
 ```bash
 
 ```
