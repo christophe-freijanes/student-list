@@ -660,13 +660,27 @@ docker pull nginx:latest
 docker images
 ```
 ```bash
-OUTPUT
+REPOSITORY                 TAG          IMAGE ID       CREATED        SIZE
+nginx                      latest       04661cdce581   18 hours ago   141MB
+registry                   2            b2cb11db9d3d   2 months ago   26.2MB
+joxit/docker-registry-ui   1.5-static   74416e0cd8ba   8 months ago   24.2MB
 ```
 11. Tag de l'image "nginx" dans cette exemple
 ```bash
-docker tag 87a94228f133 localhost:5000/nginx:private-registry
+docker tag <IMAGE ID> localhost:5000/nginx:private-registry
 ```
 12. Push image en local depuis notre host
 ```bash
 docker push localhost:5000/nginx:private-registry
 ```
+```bash
+docker images
+```
+```bash
+REPOSITORY                 TAG                IMAGE ID       CREATED        SIZE
+nginx                      latest             04661cdce581   18 hours ago   141MB
+localhost:5000/nginx       private-registry   04661cdce581   18 hours ago   141MB
+registry                   2                  b2cb11db9d3d   2 months ago   26.2MB
+joxit/docker-registry-ui   1.5-static         74416e0cd8ba   8 months ago   24.2MB
+```
+
