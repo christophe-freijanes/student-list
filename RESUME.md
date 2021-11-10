@@ -716,9 +716,6 @@ sudo docker pull cfreijanes/student-list_api:latest
 sudo docker images
 ```
 ```bash
-sudo docker images
-```
-```bash
 REPOSITORY                    TAG              IMAGE ID       CREATED        SIZE  
 nginx                         latest           04661cdce581   20 hours ago   141MB 
 10.0.0.201:5000/nginx         private-remote   04661cdce581   20 hours ago   141MB 
