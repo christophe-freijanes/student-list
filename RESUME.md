@@ -572,23 +572,77 @@ Congratulation !
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/privateRegistry.jpg)
 ##
-1. Deployer une autre machine virtuelle  dans cet exemple on la nommera "regdocker"
+1. Deployer d'une autre machine virtuelle  dans cet exemple on la nommera "regdocker"
 ```bash
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.configure("2") do |config|
-  config.vm.define "regdocker" do |regdocker|
-    regdocker.vm.box = "geerlingguy/centos7"
-    regdocker.vm.network "private_network", type: "dhcp"
+RAM = 4096
+CPU = 4
+IP = "10.0.0.201"
+
+# Check Vagrant plugins
+# If you want to ensure that vagrant-winnfsd is installed and enabled every time you run your vagrant box, just add the following to your vagrant file, just before the code block
+if Vagrant::Util::Platform.windows? then
+  unless Vagrant.has_plugin?("vagrant-winnfsd")
+    raise  Vagrant::Errors::VagrantError.new, "vagrant-winnfsd plugin is missing. Please install it using 'vagrant plugin install vagrant-winnfsd' and rerun 'vagrant up'"
+  end
+end
+# If you want to ensure that vagrant-vbguest is installed and enabled every time you run your vagrant box, just add the following to your vagrant file, just before the code block
+if Vagrant::Util::Platform.windows? then
+  unless Vagrant.has_plugin?("vagrant-vbguest")
+    raise  Vagrant::Errors::VagrantError.new, "vagrant-vbguest plugin is missing. Please install it using 'vagrant plugin install vagrant-vbguest' and rerun 'vagrant up'"
+  end
+end
+# If you want to ensure that vagrant-share is installed and enabled every time you run your vagrant box, just add the following to your vagrant file, just before the code block
+if Vagrant::Util::Platform.windows? then
+  unless Vagrant.has_plugin?("vagrant-share")
+    raise  Vagrant::Errors::VagrantError.new, "vagrant-share plugin is missing. Please install it using 'vagrant plugin install vagrant-share' and rerun 'vagrant up'"
+  end
+end
+# SCRIPT for provisioning the magic system :)
+$install_docker_script = <<SCRIPT
+echo Installing Docker Registry...
+echo "Preparing node..."
+# Install dependent packages
+yum install -y yum-utils device-mapper-persistent-data lvm2 epel-release httpd-tools tree telnet
+# Setup docker repository
+yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+# Update Yum cache
+yum makecache fast
+# Install docker
+yum install -y docker-ce
+# Install python-pip
+yum install -y python-pip
+# Install docker-compose
+pip install docker-compose
+# Start & enable docker
+systemctl start docker
+systemctl enable docker
+# Verify docker installation
+docker run --rm hello-world
+# Copy docker-registry.service into systemd
+cp /vagrant/registry/files/docker-registry.service /etc/systemd/system/
+# Enable and start docker-registry service
+systemctl enable docker-registry.service
+service docker-registry start
+SCRIPT
+
+# The vagrant config for virtual machine named regdocker
+Vagrant.configure('2') do |config|
+  config.vm.define :regdocker, primary: true  do |regdocker|
+    regdocker.vm.box = 'geerlingguy/centos7'
+    regdocker.vbguest.auto_update = false
+    regdocker.vm.network :private_network, ip: IP
     regdocker.vm.hostname = "regdocker"
-    regdocker.vm.provider "virtualbox" do |v|
-      v.name = "regdocker"
-      v.memory = 2048
-      v.cpus = 2
-    end
-    regdocker.vm.provision :shell do |shell|
-      shell.path = "install_regdocker.sh"
+    regdocker.vm.synced_folder ".", "/vagrant"
+    regdocker.vm.provision "shell", inline: $install_docker_script, privileged: true
+    regdocker.vm.provider "virtualbox" do |vb|
+      vb.name = "regdocker"
+      vb.memory = RAM
+  	  vb.cpus = CPU
     end
   end
 end
@@ -605,21 +659,42 @@ vagrant ssh regdocker
 ```bash
  sudo docker network create reg-study-net
 ```
+5. Creation du conteneur BACKEND
 ```bash
-
+sudo docker run -d -p 5000:5000 -e REGISTRY_STORAGE_DELETE_ENABLED=true --net reg-study-net --name reg-study-net registry:2
+```
+6. Creation du conteneur FRONTEND 
+```bash
+sudo docker run -d -p 8090:80 --net reg-study-net -e REGISTRY_URL=http://registry-study-net:5000 -e DELETE_IMAGES=true -e REGISTRY_TITLE=study-net --name fontend-study-net joxit/docker-registry-ui:1.5-static
+```
+7. Verification de l' activitee de nos conteneurs
+```bash
+docker ps
 ```
 ```bash
 
 ```
+8. Connexion a la WEBGUI de notre registry
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/private_registry.png)
 ```bash
 
 ```
+9. Pull d'une image depuis le Docker-hub
 ```bash
-
+docker pull nginx:latest
+```
+10. Preparation pour tag de notre image 
+```bash
+docker images
 ```
 ```bash
-vagrant ssh regdocker
+OUTPUT
 ```
+11. Tag de l'image "nginx" dans cette exemple
 ```bash
-vagrant ssh regdocker
+docker tag 87a94228f133 localhost:5000/nginx:private-registry
+```
+12. Push image en local depuis notre host
+```bash
+docker push localhost:5000/nginx:private-registry
 ```
