@@ -648,14 +648,15 @@ CONTAINER ID   IMAGE                                 COMMAND                  CR
 ```
 8. Connexion a la WEBGUI de notre registry
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/private-registry.png)
-```bash
+##
+Lien : [Private Registry](http://10.0.0.201:8090/)
 
-```
-9. Pull d'une image depuis le Docker-hub
+## PULL PRIVATE REGISTRY TO PULL PRIVATE REGISTRY
+1. Pull d'une image depuis le Docker-hub
 ```bash
 docker pull nginx:latest
 ```
-10. Preparation pour tag de notre image 
+2. Preparation pour tag de notre image 
 ```bash
 docker images
 ```
@@ -665,11 +666,11 @@ nginx                      latest       04661cdce581   18 hours ago   141MB
 registry                   2            b2cb11db9d3d   2 months ago   26.2MB
 joxit/docker-registry-ui   1.5-static   74416e0cd8ba   8 months ago   24.2MB
 ```
-11. Tag de l'image "nginx" dans cette exemple
+3. Tag de l'image "nginx" dans cette exemple
 ```bash
 docker tag <IMAGE ID> localhost:5000/nginx:private-registry
 ```
-12. Push image en local depuis notre host
+4. Push image en local depuis notre host
 ```bash
 docker push localhost:5000/nginx:private-registry
 ```
@@ -683,4 +684,38 @@ localhost:5000/nginx       private-registry   04661cdce581   18 hours ago   141M
 registry                   2                  b2cb11db9d3d   2 months ago   26.2MB
 joxit/docker-registry-ui   1.5-static         74416e0cd8ba   8 months ago   24.2MB
 ```
+##
+.Details de notre image depuis notre WebGUI:
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/tag.png)
+##
+NB: On remarque que l'on a la possibiliter de supprimer notre image.
+## PUSH D'UNE IMAGE DEPUIS UNE AUTRE MACHINE (DISTANTE) VERS NOTRE PRIVATE REGISTRY
+1. Depuis notre machine mpdocker on va exporter une image vers notre private registry situer sur une autre machine de notre reseau (regdocker)
+```bash
+docker images
+```
+```bash
+REPOSITORY                    TAG           IMAGE ID       CREATED          SIZE
+cfreijanes/student-list_api   v1.0          94608dec3d19   20 minutes ago   1.13GB
+student-list_api              v1.0          94608dec3d19   20 minutes ago   1.13GB
+php                           apache        3249ab66a0fd   2 weeks ago      472MB
+python                        2.7-stretch   e71fc5c0fcb1   18 months ago    928MB
+```
+2. On va faire un push de l'image de notre API
+```bash
+docker tag <IMAGE ID> 10.0.0.200:5000/student-list_api:private-remote
+```
+3. On peut aussi supprimer nos images
+##
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/delete.png)
+
+## CHECK TO PRIVATE REGISTRY
+```bash
+docker images
+```
+```bash
+
+```
+
+Perfect !
 
