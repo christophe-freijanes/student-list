@@ -651,7 +651,7 @@ CONTAINER ID   IMAGE                                 COMMAND                  CR
 ##
 Lien : [Private Registry](http://10.0.0.201:8090/)
 
-## PULL PRIVATE REGISTRY TO PULL PRIVATE REGISTRY
+## PULL IMAGE DOCKER HUB TO PUSH PRIVATE REGISTRY
 1. Pull d'une image depuis le Docker-hub
 ```bash
 docker pull nginx:latest
