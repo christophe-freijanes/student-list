@@ -136,6 +136,7 @@ vagrant plugin install vagrant-share
 ```bash
 PS H:\PROJETS\repo\student-list\mpdocker>
 ```
+Output
 ```bash
 vagrant validate
 Vagrantfile validated successfully.
@@ -616,6 +617,19 @@ Vagrant.configure("2") do |config|
     end 
   end
 end
+```
+* A mettre dans le dossier de votre machine le script bash install_docker.sh a coter de votre vagrantfile ;)
+```bash
+#!/bin/bash
+sudo yum -y update
+
+# install docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+sudo usermod -aG docker vagrant
+sudo systemctl enable docker
+sudo systemctl start docker
+echo "For this Stack, you will use $(ip -f inet addr show enp0s8 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p') IP Address"
 ```
 2. Deploiement de regdocker
 ```bash
