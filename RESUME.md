@@ -690,32 +690,42 @@ joxit/docker-registry-ui   1.5-static         74416e0cd8ba   8 months ago   24.2
 ##
 NB: On remarque que l'on a la possibiliter de supprimer notre image.
 ## PUSH D'UNE IMAGE DEPUIS UNE AUTRE MACHINE (DISTANTE) VERS NOTRE PRIVATE REGISTRY
-1. Depuis notre machine mpdocker on va exporter une image vers notre private registry situer sur une autre machine de notre reseau (regdocker)
+1. Pull d'une immage par exemple stocker dans notre Docker hub, on va la telecharger vers mpdocker puis l' envoyer vers regdocker (Private Registry)
 ```bash
-docker images
+sudo docker login
 ```
 ```bash
-REPOSITORY                    TAG           IMAGE ID       CREATED          SIZE
-cfreijanes/student-list_api   v1.0          94608dec3d19   20 minutes ago   1.13GB
-student-list_api              v1.0          94608dec3d19   20 minutes ago   1.13GB
-php                           apache        3249ab66a0fd   2 weeks ago      472MB
-python                        2.7-stretch   e71fc5c0fcb1   18 months ago    928MB
+sudo docker pull cfreijanes/student-list_api:latest
 ```
-2. On va faire un push de l'image de notre API
+2. Depuis notre machine mpdocker on va lister nos images pour voir si on la dans notre referentiel sur notre machine mpdocker of Course !
 ```bash
-docker tag <IMAGE ID> 10.0.0.200:5000/student-list_api:private-remote
+sudo docker images
 ```
-3. On peut aussi supprimer nos images
+```bash
+sudo docker images
+```
+```bash
+REPOSITORY                    TAG              IMAGE ID       CREATED        SIZE  
+nginx                         latest           04661cdce581   20 hours ago   141MB 
+10.0.0.201:5000/nginx         private-remote   04661cdce581   20 hours ago   141MB 
+cfreijanes/student-list_api   latest           e85d03d15757   24 hours ago   1.13GB
+```
+3. On va Tagger l'image de notre API avec la ref <IMAGE ID> 
+```bash
+sudo docker tag <IMAGE ID> 10.0.0.201:5000/student-list_api:centos-remote
+```
+4. Push de l'image de notre API vers notre private registry (regdoker)
+```bash
+sudo docker push 10.0.0.201:5000/student-list_api:centos-remote
+```
+5. On peut aussi supprimer nos images
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/delete.png)
 
-## CHECK TO PRIVATE REGISTRY
-```bash
-docker images
-```
-```bash
-
-```
+## CHECK DEPUIS NOTRE WEGUI PRIVATE REGISTRY
+Lien : [Private Registry](http://10.0.0.201:8090/)
+##
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/api.png)
 
 Perfect !
 
