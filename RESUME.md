@@ -685,7 +685,7 @@ registry                   2                  b2cb11db9d3d   2 months ago   26.2
 joxit/docker-registry-ui   1.5-static         74416e0cd8ba   8 months ago   24.2MB
 ```
 ##
-.Details de notre image depuis notre WebGUI:
+* Details de notre image depuis notre WebGUI:
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/tag.png)
 ##
 NB: On remarque que l'on a la possibiliter de supprimer notre image.
@@ -712,20 +712,83 @@ cfreijanes/student-list_api   latest           e85d03d15757   24 hours ago   1.1
 ```
 3. On va Tagger l'image de notre API avec la ref <IMAGE ID> 
 ```bash
-sudo docker tag <IMAGE ID> 10.0.0.201:5000/student-list_api:centos-remote
+sudo docker tag <IMAGE ID> <IP_REGISTRY>:5000/student-list_api:centos-remote
 ```
-4. Push de l'image de notre API vers notre private registry (regdoker)
+4. Dans le cadre de ce mini-projet je vais proposer une solution de contournement pour permettre a notre machine mpdocker de pouvoir pusher notre image par http. :)
 ```bash
-sudo docker push 10.0.0.201:5000/student-list_api:centos-remote
+sudo vi /usr/lib/systemd/system/docker.service
 ```
-5. On peut aussi supprimer nos images
+* Remplacer <IP_REGISTRY> par l'IP de votre private registry 
+```bash
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network-online.target firewalld.service containerd.service
+Wants=network-online.target
+Requires=docker.socket containerd.service
+
+[Service]
+Type=notify
+# the default is not to use systemd for cgroups because the delegate issues still
+# exists and systemd currently does not support the cgroup feature set required
+# for containers run by docker
+ExecStart=/usr/bin/dockerd --insecure-registry <IP_REGISTRY>:5000
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutSec=0
+RestartSec=2
+Restart=always
+
+# Note that StartLimit* options were moved from "Service" to "Unit" in systemd 229.
+# Both the old, and new location are accepted by systemd 229 and up, so using the old location
+# to make them work for either version of systemd.
+StartLimitBurst=3
+
+# Note that StartLimitInterval was renamed to StartLimitIntervalSec in systemd 230.
+# Both the old, and new name are accepted by systemd 230 and up, so using the old name to make
+# this option work for either version of systemd.
+StartLimitInterval=60s
+
+# Having non-zero Limit*s causes performance problems due to accounting overhead
+# in the kernel. We recommend using cgroups to do container-local accounting.
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+
+# Comment TasksMax if your systemd version does not support it.
+# Only systemd 226 and above support this option.
+TasksMax=infinity
+
+# set delegate yes so that systemd does not reset the cgroups of docker containers
+Delegate=yes
+
+# kill only the docker process, not all processes in the cgroup
+KillMode=process
+OOMScoreAdjust=-500
+
+[Install]
+WantedBy=multi-user.target
+```
+* Une fois cela fait on va redemarrer le daemon et le service docker
+```bash
+sudo systemctl daemon-reload
+```
+```bash
+sudo systemctl restart docker
+```
+```bash
+sudo systemctl status docker
+```
+5. Push de l'image de notre API vers notre private registry (regdoker)
+```bash
+sudo docker push <IP_REGISTRY>:5000/student-list_api:centos-remote
+```
+6. On peut aussi supprimer nos images
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/delete.png)
-
 ## CHECK DEPUIS NOTRE WEGUI PRIVATE REGISTRY
 Lien : [Private Registry](http://10.0.0.201:8090/)
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/api.png)
 
-Perfect !
+
 
