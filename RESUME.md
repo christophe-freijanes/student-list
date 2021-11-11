@@ -1,7 +1,9 @@
 ##
-![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/VBoxVagrantCentOS.jpg)
+
 ##
 ## 1. CREATION DE LA VM
+##
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/VBoxVagrantCentOS.jpg)
 Notre machine virtuelle se nommera "mpdocker" elle sera le host qui permettra de faire fonctionner nos conteneurs.
 ### Prerequis:
 * Une machine local sous Linux, Windows, MacOS
@@ -386,6 +388,7 @@ curl -u toto:python -X GET http://$HOSTNAME:5000/pozos/api/v1.0/get_student_ages
 }
 ```
 ## 9. AUTOMATISATION AVEC GITHUB
+##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockergithub.png)
 ##
 Prerequis :
@@ -471,6 +474,7 @@ NB: Attention ne fermer pas la page cela peut-etre long, tout depend de la taill
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/08.png)
 ##
 ## 10. NETTOYAGE
+##
 1. Lister les conteneurs
 ```bash
 sudo docker ps -a
@@ -517,6 +521,7 @@ sudo docker images
 REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 ```
 ## 11. BUILD AND RUN DOCKER-COMPOSE
+##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/docker-compose.png)
 ##
 1. Edition du docker-compose
@@ -817,3 +822,4 @@ sudo docker push <IP_REGISTRY>:5000/student-list_api:centos-remote
 Lien : [Private Registry](http://10.0.0.201:8090/)
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/api.png)
+##
