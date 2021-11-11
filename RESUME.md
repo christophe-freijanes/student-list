@@ -670,7 +670,7 @@ docker run -d -p 5000:5000 -e REGISTRY_STORAGE_DELETE_ENABLED=true --net reg-stu
 ```
 6. Creation du conteneur FRONTEND 
 ```bash
-docker run -d -p 8090:80 --net reg-study-net -e REGISTRY_URL=http://registry-study-net:5000 -e DELETE_IMAGES=true -e REGISTRY_TITLE=reg-study-net --name fontend-study-net joxit/docker-registry-ui:1.5-static
+docker run -d -p 8090:80 --net reg-study-net -e REGISTRY_URL=http://registry-study-net:5000 -e DELETE_IMAGES=true -e REGISTRY_TITLE=reg-study-net --name frontend-study-net joxit/docker-registry-ui:1.5-static
 ```
 7. Verification de l' activitee de nos conteneurs
 ```bash
@@ -678,7 +678,7 @@ docker ps
 ```
 ```bash
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED          STATUS          PORTS                                       NAMES
-4104823b1746   joxit/docker-registry-ui:1.5-static   "/docker-entrypoint.…"   9 seconds ago    Up 8 seconds    0.0.0.0:8090->80/tcp, :::8090->80/tcp       fontend-study-net
+4104823b1746   joxit/docker-registry-ui:1.5-static   "/docker-entrypoint.…"   9 seconds ago    Up 8 seconds    0.0.0.0:8090->80/tcp, :::8090->80/tcp       frontend-study-net
 47d021115527   registry:2                            "/entrypoint.sh /etc…"   27 seconds ago   Up 26 seconds   0.0.0.0:5000->5000/tcp, :::5000->5000/tcp   registry-study-net
 ```
 8. Connexion a la WEBGUI de notre registry
@@ -821,6 +821,3 @@ sudo docker push <IP_REGISTRY>:5000/student-list_api:centos-remote
 Lien : [Private Registry](http://10.0.0.201:8090/)
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/api.png)
-
-
-
