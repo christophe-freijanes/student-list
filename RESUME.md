@@ -385,6 +385,7 @@ curl -u toto:python -X GET http://$HOSTNAME:5000/pozos/api/v1.0/get_student_ages
   }
 }
 ```
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockergithub.png)
 ## 9. AUTOMATISATION AVEC GITHUB
 Prerequis :
 - Avoir un compte Docker-hub permettant le build (payant).
