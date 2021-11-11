@@ -1,5 +1,5 @@
 ##
-![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/flask.jpg)
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/flask.jpg)
 ##
 ## 1. CREATION DE LA VM
 ##
