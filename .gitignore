@@ -2,4 +2,4 @@
 .virtualbox
 *.log 
 .config
-.env_prod
+*.env_prod
