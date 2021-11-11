@@ -1,3 +1,2 @@
-./mpdocker/.vagrant
-./regdocker/.vagrant
-./regdocker/ubuntu-xenial*
+*.vagrant/
+*ubuntu-xenial*
