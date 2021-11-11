@@ -533,8 +533,6 @@ services:
             - '5000:5000'
         env_file:
             - .env_prod
-        restart:
-            - 'always'
         volumes:
             - '/student-list/simple_api/student_age.json:/data/student_age.json'
             - '/student-list/simple_api/student_age.py:/data/student_age.py'
@@ -545,8 +543,6 @@ services:
             - '8080:80'
         env_file:
             - .env_prod
-        restart:
-            - 'always'
         volumes:
             - '/website:/var/www/html/'
         image: 'php:apache'
@@ -555,15 +551,32 @@ services:
 networks:
     study-net:
 ```
-2. Run le docker-compose
+2. Installation de docker-compose pour Centos 7.6
 ```bash
-docker-compose up -d
+sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+```
+```bash
+sudo chmod +x /usr/local/bin/docker-compose
+```
+```bash
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+```
+```bash
+docker-compose --version
+```
+Output:
+```bash
+docker-compose version 1.21.0, build 5920eb0
+```
+3. Run le docker-compose
+```bash
+sudo docker-compose up -d
 ```
 ```bash
 Creating student-list_api_1 ... done
 Creating student-list_web_1 ... done
 ```
-3. Verification de nos microservices
+4. Verification de nos microservices
 ```bash
 docker ps -a
 ```
