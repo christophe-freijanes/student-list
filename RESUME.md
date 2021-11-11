@@ -197,6 +197,17 @@ sudo git clone https://github.com/diranetafen/student-list.git
 ```bash
 ls -alh /student-list/
 ```
+Output:
+```bash
+total 48K
+drwxr-xr-x.  8 root root  193 Nov 11 13:52 .
+dr-xr-xr-x. 19 root root  259 Nov 11 13:52 ..
+-rw-r--r--.  1 root root  800 Nov 11 13:52 docker-compose.yml
+drwxr-xr-x.  8 root root  163 Nov 11 13:52 .git
+-rw-r--r--.  1 root root 7.1K Nov 11 13:52 README.md
+drwxr-xr-x.  2 root root   70 Nov 11 13:52 simple_api
+drwxr-xr-x.  2 root root   23 Nov 11 13:52 website
+```
 ## 3. CREATION DU DOCKERFILE
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/Docker.jpg)
