@@ -634,7 +634,7 @@ vagrant up
 ```
 3. Ce connecter en ssh
 ```bash
-vagrant ssh regdocker
+ssh vagrant@<IP_REGISTRY>
 ```
 4. Creation d'un reseau "reg-study-net"
 ```bash
