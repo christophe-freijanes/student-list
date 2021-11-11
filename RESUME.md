@@ -758,7 +758,6 @@ Documentation=https://docs.docker.com
 After=network-online.target firewalld.service containerd.service
 Wants=network-online.target
 Requires=docker.socket containerd.service
-
 [Service]
 Type=notify
 # the default is not to use systemd for cgroups because the delegate issues still
