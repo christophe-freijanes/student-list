@@ -2,7 +2,7 @@
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/VBoxVagrantCentOS.jpg)
 ##
 ## CREATION DE LA VM
-Notre machine virtuelle se nommera "mpdocker" elle sera le host qui permettra de faire fonctionner les conteneurs.
+Notre machine virtuelle se nommera "mpdocker" elle sera le host qui permettra de faire fonctionner nos conteneurs.
 ### Prerequis:
 * Une machine local sous Linux, Windows, MacOS
 * Avoir une connexion reseau
@@ -10,10 +10,7 @@ Notre machine virtuelle se nommera "mpdocker" elle sera le host qui permettra de
 * Savoir utiliser Powershell
 * Avoir un editeur de texte (Notepad++, VSCode)
 * Creation d'une virtual machine avec un OS:Centos 7.6 depuis un vagrantfile
-* Le provisionement du syteme doit avoir au minimun ses paquets d'installer
-*git
-*docker
-*docker-compose
+* Le provisionement du syteme doit avoir au minimun ses paquets d'installer: *git*, *docker*, *docker-compose*
 ### Depuis votre machine local (Host):
 1. Creation d'un dossier qui va contenir mon vagrantfile
 ```bash
@@ -99,8 +96,8 @@ Vagrant.configure('2') do |config|
     mpdocker.vm.box_version = "1.0.0"
     mpdocker.vbguest.auto_update = false
     mpdocker.vm.network :private_network, ip: IP
-    mpdocker.vm.network :forwarded_port, guest: 5000, host: 5000
-    mpdocker.vm.network :forwarded_port, guest: 80, host: 8080
+#    mpdocker.vm.network :forwarded_port, guest: 5000, host: 5000
+#    mpdocker.vm.network :forwarded_port, guest: 80, host: 8080
     mpdocker.vm.hostname = "mpdocker"
     mpdocker.vm.synced_folder ".", "/vagrant"
     mpdocker.vm.provision "shell", inline: $install_git, privileged: true
