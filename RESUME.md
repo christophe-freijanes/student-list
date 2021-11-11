@@ -385,8 +385,9 @@ curl -u toto:python -X GET http://$HOSTNAME:5000/pozos/api/v1.0/get_student_ages
   }
 }
 ```
-![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockergithub.png)
 ## 9. AUTOMATISATION AVEC GITHUB
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockergithub.png)
+##
 Prerequis :
 - Avoir un compte Docker-hub permettant le build (payant).
 - Avoir creer une image depuis votre host.
@@ -516,6 +517,8 @@ sudo docker images
 REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 ```
 ## 11. BUILD AND RUN DOCKER-COMPOSE
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/docker-compose.png)
+##
 1. Edition du docker-compose
 ```bash
 cd ..
