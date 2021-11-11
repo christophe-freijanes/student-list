@@ -1,5 +1,5 @@
 ##
-
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/flask.jpg)
 ##
 ## 1. CREATION DE LA VM
 ##
@@ -184,6 +184,7 @@ ip a
        valid_lft forever preferred_lft forever
 ...
 ```
+##
 ## 2. RECUPERATION DU CODE
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/logoGithub.PNG)
@@ -210,6 +211,7 @@ drwxr-xr-x.  8 root root  163 Nov 11 13:52 .git
 drwxr-xr-x.  2 root root   70 Nov 11 13:52 simple_api
 drwxr-xr-x.  2 root root   23 Nov 11 13:52 website
 ```
+##
 ## 3. CREATION DU DOCKERFILE
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/Docker.jpg)
@@ -235,6 +237,7 @@ COPY student_age.py /
 # Run the server python and start api
 CMD [ "python", "./student_age.py" ]
 ```
+##
 ## 4. EDITION INDEX.PHP
 1. Edition de la page index.php
 ```bash
@@ -251,6 +254,7 @@ par
 $url = 'http://10.0.0.200:5000/pozos/api/v1.0/get_student_ages';
 ```
 3. Enregistrer les modifications part 1 ;)
+##
 ## 5. EDITION DU FICHIER DES VARIABLES
 1. Creation et edition d'un fichier contenant les variables
 ```bash
@@ -261,6 +265,7 @@ SOME_USERNAME=toto
 SOME_PWD_VAR=python
 ```
 2. Enregistrer les modifications ;)
+##
 ## 6. CREATION VOLUME
 1. Creation d'un volume persistant
 ```bash
@@ -292,6 +297,7 @@ Output :
     }
 ]
 ```
+##
 ## 7. CREATION NETWORK
 1. Creation d'un reseau pour permettre aux conteneurs de communiquer entre eux
 ```bash
@@ -312,7 +318,11 @@ NETWORK ID     NAME        DRIVER    SCOPE
 d4795f64a489   none        null      local
 93acfcd1907e   study-net   bridge    local
 ```
+##
 ## 8. BUILD AND RUN DOCKER IMAGE
+##
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/dockerrun.jpeg)
+##
 1. Creation de l'image pour notre conteneur api
 ```bash
 cd /student-list/simple_api/
@@ -387,6 +397,7 @@ curl -u toto:python -X GET http://$HOSTNAME:5000/pozos/api/v1.0/get_student_ages
   }
 }
 ```
+##
 ## 9. AUTOMATISATION AVEC GITHUB
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockergithub.png)
@@ -520,6 +531,7 @@ sudo docker images
 ```bash
 REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 ```
+##
 ## 11. BUILD AND RUN DOCKER-COMPOSE
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/docker-compose.png)
@@ -694,7 +706,7 @@ CONTAINER ID   IMAGE                                 COMMAND                  CR
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/private-registry.png)
 ##
 Lien : [Private Registry](http://10.0.0.201:8090/)
-
+##
 ## 13. PULL IMAGE DOCKER HUB TO PUSH PRIVATE REGISTRY
 1. Pull d'une image depuis le Docker-hub
 ```bash
@@ -733,6 +745,7 @@ joxit/docker-registry-ui   1.5-static         74416e0cd8ba   8 months ago   24.2
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/tag.png)
 ##
 NB: On remarque que l'on a la possibiliter de supprimer notre image.
+##
 ## 14. PUSH D'UNE IMAGE DEPUIS UNE AUTRE MACHINE (DISTANTE) VERS NOTRE PRIVATE REGISTRY
 1. Pull d'une immage par exemple stocker dans notre Docker hub, on va la telecharger vers mpdocker puis l' envoyer vers regdocker (Private Registry)
 ```bash
@@ -818,6 +831,7 @@ sudo docker push <IP_REGISTRY>:5000/student-list_api:centos-remote
 6. On peut aussi supprimer nos images
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/delete.png)
+##
 ## 15. CHECK DEPUIS NOTRE WEGUI PRIVATE REGISTRY
 Lien : [Private Registry](http://10.0.0.201:8090/)
 ##
