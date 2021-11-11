@@ -374,7 +374,7 @@ curl -u toto:python -X GET http://$HOSTNAME:5000/pozos/api/v1.0/get_student_ages
   }
 }
 ```
-## 10. AUTOMATISATION AVEC GITHUB
+## 9. AUTOMATISATION AVEC GITHUB
 Prerequis :
 - Avoir un compte Docker-hub permettant le build (payant).
 - Avoir creer une image depuis votre host.
@@ -457,7 +457,7 @@ NB: Attention ne fermer pas la page cela peut-etre long, tout depend de la taill
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/08.png)
 ##
-## 11. NETTOYAGE
+## 10. NETTOYAGE
 1. Lister les conteneurs
 ```bash
 sudo docker ps -a
@@ -503,7 +503,7 @@ sudo docker images
 ```bash
 REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 ```
-## 12. BUILD AND RUN DOCKER-COMPOSE
+## 11. BUILD AND RUN DOCKER-COMPOSE
 1. Edition du docker-compose
 ```bash
 cd ..
@@ -566,7 +566,7 @@ e247a778b5c3   student-list_api   "python ./student_ag…"   2 minutes ago   Up 
 ##
 Congratulation !
 ##
-## 13. PRIVATE DOCKER-REGISTRY
+## 12. PRIVATE DOCKER-REGISTRY
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/privateRegistry.jpg)
 ##
@@ -662,7 +662,7 @@ CONTAINER ID   IMAGE                                 COMMAND                  CR
 ##
 Lien : [Private Registry](http://10.0.0.201:8090/)
 
-## 14. PULL IMAGE DOCKER HUB TO PUSH PRIVATE REGISTRY
+## 13. PULL IMAGE DOCKER HUB TO PUSH PRIVATE REGISTRY
 1. Pull d'une image depuis le Docker-hub
 ```bash
 docker pull nginx:latest
@@ -700,7 +700,7 @@ joxit/docker-registry-ui   1.5-static         74416e0cd8ba   8 months ago   24.2
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/tag.png)
 ##
 NB: On remarque que l'on a la possibiliter de supprimer notre image.
-## 15. PUSH D'UNE IMAGE DEPUIS UNE AUTRE MACHINE (DISTANTE) VERS NOTRE PRIVATE REGISTRY
+## 14. PUSH D'UNE IMAGE DEPUIS UNE AUTRE MACHINE (DISTANTE) VERS NOTRE PRIVATE REGISTRY
 1. Pull d'une immage par exemple stocker dans notre Docker hub, on va la telecharger vers mpdocker puis l' envoyer vers regdocker (Private Registry)
 ```bash
 sudo docker login
@@ -793,7 +793,7 @@ sudo docker push <IP_REGISTRY>:5000/student-list_api:centos-remote
 6. On peut aussi supprimer nos images
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/delete.png)
-## 16. CHECK DEPUIS NOTRE WEGUI PRIVATE REGISTRY
+## 15. CHECK DEPUIS NOTRE WEGUI PRIVATE REGISTRY
 Lien : [Private Registry](http://10.0.0.201:8090/)
 ##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/api.png)
