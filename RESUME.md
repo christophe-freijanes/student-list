@@ -255,8 +255,8 @@ $url = 'http://10.0.0.200:5000/pozos/api/v1.0/get_student_ages';
 sudo vi /student-list/.env_prod
 ```
 ```bash
-USERNAME=toto
-PASSWORD=python
+SOME_USERNAME=toto
+SOME_PWD_VAR=python
 ```
 2. Enregistrer les modifications ;)
 ## 6. CREATION VOLUME
