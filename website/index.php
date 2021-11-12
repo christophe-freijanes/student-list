@@ -19,7 +19,7 @@
               $username = getenv('USERNAME');
               $password = getenv('PASSWORD');
               if ( empty($username) ) $username = 'toto';
-              if ( empty($password) ) $password = 'python';
+              if ( empty($password) ) $password = 'cHI0aG9u';
               $context = stream_context_create(array(
                 "http" => array(
                 "header" => "Authorization: Basic " . base64_encode("$username:$password"),
