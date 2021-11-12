@@ -246,8 +246,9 @@ sudo vi /student-list/website/index.php
 2. Modifer la ligne 21 et 20 ainsi que la ligne 29
 ```bash
               if ( empty($username) ) $username = 'toto';
-              if ( empty($password) ) $password = 'python';
+              if ( empty($password) ) $password = 'cHI0aG9u';
 ```
+Lien : [Encode-Decode Base64 ](https://base64decode.org)
 ```bash
 $url = 'http://<api_ip_or_name:port>/pozos/api/v1.0/get_student_ages';
 par
