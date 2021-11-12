@@ -538,7 +538,6 @@ REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/docker-compose.png)
 ##
 1. Edition du docker-compose
-<p>Lien : [Composerize](https://www.composerize.com/)</p>
 ```bash
 cd ..
 ```
@@ -574,6 +573,8 @@ services:
 networks:
     study-net:
 ```
+Lien : [Composerize](https://www.composerize.com/)
+##
 2. Installation de docker-compose pour Centos 7.6
 ```bash
 sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
