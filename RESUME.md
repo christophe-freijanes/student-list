@@ -348,9 +348,9 @@ sudo docker tag <IMAGE ID> cfreijanes/student-list_api:v1.0
 ##
 Lien : [Docker-Hub repositories ](https://hub.docker.com/repositories)
 ##
-![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/0-1.png)
-##
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/0-2.png)
+##
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/0-1.png)
 ##
 5. Connexion au Docker-hub
 ```bash
