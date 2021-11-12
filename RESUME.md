@@ -248,7 +248,7 @@ sudo vi /student-list/website/index.php
               if ( empty($username) ) $username = 'toto';
               if ( empty($password) ) $password = 'cHI0aG9u';
 ```
-Lien : [Encode-Decode Base64 ](https://base64decode.org)
+Lien pour encoder ou decoder un mot de passe: [Encode-Decode Base64 ](https://base64decode.org)
 ```bash
 $url = 'http://<api_ip_or_name:port>/pozos/api/v1.0/get_student_ages';
 par
