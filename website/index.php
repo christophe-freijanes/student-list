@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
     <head>
         <title>POZOS</title>
     </head>
@@ -14,12 +14,12 @@
             </form>
 
             <?php
-              if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['submit']))
+              if($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['submit']))
               {
               $username = getenv('USERNAME');
               $password = getenv('PASSWORD');
-              if ( empty($username) ) $username = 'toto';
-              if ( empty($password) ) $password = 'cHI0aG9u';
+              if ( empty($username) $username = 'toto';
+              if ( empty($password) $password = 'cHI0aG9u';
               $context = stream_context_create(array(
                 "http" => array(
                 "header" => "Authorization: Basic " . base64_encode("$username:$password"),
