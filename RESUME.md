@@ -607,6 +607,7 @@ Output:
 ```bash
 docker-compose version 1.21.0, build 5920eb0
 ```
+* Si pas d'erreur Next step :)
 4. Verification de nos microservices
 ```bash
 docker ps -a
