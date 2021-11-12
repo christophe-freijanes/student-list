@@ -322,7 +322,7 @@ d4795f64a489   none        null      local
 ##
 ## 8. BUILD AND RUN DOCKER IMAGE
 ##
-![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/dockerrun.jpeg)
+![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/dockerrun.jpg)
 ##
 1. Creation de l'image pour notre conteneur api
 ```bash
