@@ -585,8 +585,8 @@ Creating student-list_api_1 ... done
 Creating student-list_web_1 ... done
 ```
 3. En cas d'erreur de votre commande "command not found"  
-* Installation de docker-compose pour Centos 7.6
-Pour une raison obscure, il arrive parfois avec cette version de Centos 7.6 de rencontrer une erreur, lors de l'excution de cette commande :
+* Reinstallation de "docker-compose" pour Centos 7.6.
+- Pour une raison obscure, il arrive parfois qu'avec cette version de Centos 7.6, de rencontrer une erreur du type "command not found", lors de l'execution de cette commande :
 ```bash
 sudo docker-compose up -d
 ```
@@ -608,6 +608,9 @@ Output:
 docker-compose version 1.21.0, build 5920eb0
 ```
 * Si pas d'erreur Next step :)
+
+Source : [Docker Compose](https://docs.docker.com/compose/install/)
+
 4. Verification de nos microservices
 ```bash
 docker ps -a
