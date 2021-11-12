@@ -576,7 +576,21 @@ networks:
 ```
 Lien : [Composerize](https://www.composerize.com/)
 ##
-2. Installation de docker-compose pour Centos 7.6
+2. Run le docker-compose
+```bash
+sudo docker-compose up -d
+```
+```bash
+Creating student-list_api_1 ... done
+Creating student-list_web_1 ... done
+```
+3. En cas d'erreur de votre commande "command not found"  
+* Installation de docker-compose pour Centos 7.6
+Pour une raison obscure, il arrive parfois avec cette version de Centos 7.6 de rencontrer une erreur, lors de l'excution de cette commande :
+```bash
+sudo docker-compose up -d
+```
+* Pour resoudre ce probleme suivre les etapes suivantes:
 ```bash
 sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 ```
@@ -592,14 +606,6 @@ docker-compose --version
 Output:
 ```bash
 docker-compose version 1.21.0, build 5920eb0
-```
-3. Run le docker-compose
-```bash
-sudo docker-compose up -d
-```
-```bash
-Creating student-list_api_1 ... done
-Creating student-list_web_1 ... done
 ```
 4. Verification de nos microservices
 ```bash
