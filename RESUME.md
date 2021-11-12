@@ -538,7 +538,7 @@ REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 ![alt text](https://github.com/christophe-freijanes/student-list/blob/master/images/dockerhub/docker-compose.png)
 ##
 1. Edition du docker-compose
-Lien : [Composerize](https://www.composerize.com/)
+<p>Lien : [Composerize](https://www.composerize.com/)</p>
 ```bash
 cd ..
 ```
