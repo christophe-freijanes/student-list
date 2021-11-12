@@ -838,7 +838,7 @@ sudo systemctl restart docker
 ```bash
 sudo systemctl status docker
 ```
-5. Push de l'image de notre API vers notre private registry (regdoker)
+5. Push de l'image de notre API vers notre private registry (regdocker)
 ```bash
 sudo docker push <IP_REGISTRY>:5000/student-list_api:centos-remote
 ```
