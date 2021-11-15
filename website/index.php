@@ -18,11 +18,11 @@
               {
               $username = getenv('USERNAME');
               $password = getenv('PASSWORD');
-              if ( empty($username) $username = 'toto';
+              if ( empty($username) $username = 'dG90bw==';
               if ( empty($password) $password = 'cHI0aG9u';
               $context = stream_context_create(array(
                 "http" => array(
-                "header" => "Authorization: Basic " . base64_encode("$username:$password"),
+                "header" => "Authorization: Basic " . base64_decode("$username:$password"),
               )));
 
               $url ="http://10.0.0.200:5000/pozos/api/v1.0/get_student_ages";
