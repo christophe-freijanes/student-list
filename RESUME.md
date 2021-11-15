@@ -244,10 +244,16 @@ CMD [ "python", "./student_age.py" ]
 ```bash
 sudo vi /student-list/website/index.php
 ```
-2. Modifer la ligne 21 et 20 ainsi que la ligne 29
+2. Modifer les lignes suivantes
 ```bash
-              if ( empty($username) ) $username = 'toto';
-              if ( empty($password) ) $password = 'cHI0aG9u';
+  $username = getenv('USERNAME');
+  $password = getenv('PASSWORD');
+  if ( empty($username) $username = 'Y29kYWMtcm8=';
+  if ( empty($password) $password = 'IUMwZEBjUjA=';
+  $context = stream_context_create(array(
+    "http" => array(
+    "header" => "Authorization: Basic " . base64_decode("$username:$password"),
+  )));
 ```
 Lien pour encoder ou decoder un mot de passe: [Encode-Decode Base64 ](https://base64decode.org)
 ```bash
